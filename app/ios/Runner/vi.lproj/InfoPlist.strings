@@ -1,0 +1,4 @@
+/* iOS hiển thị khi NexVault xin quyền. */
+"NSCameraUsageDescription" = "Quét mã QR để tham gia workspace hoặc sync.";
+"NSFaceIDUsageDescription" = "Mở khoá NexVault và xem secret.";
+"NSLocalNetworkUsageDescription" = "Sync với thành viên khác trong cùng mạng Wi-Fi.";

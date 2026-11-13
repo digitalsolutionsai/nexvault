@@ -1,0 +1,4 @@
+/* Shown by iOS when NexVault asks for a permission. */
+"NSCameraUsageDescription" = "Scan QR codes to join a workspace or sync.";
+"NSFaceIDUsageDescription" = "Unlock NexVault and view secrets.";
+"NSLocalNetworkUsageDescription" = "Sync with other members on the same Wi-Fi network.";

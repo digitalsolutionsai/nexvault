@@ -1,0 +1,959 @@
+{
+  "@@locale": "en",
+  "appName": "NexVault",
+  "langSystem": "Phone language",
+  "langTitle": "Language",
+  "authNeedScreenLock": "Screen lock authentication is needed to protect your data. Try again.",
+  "authPinMismatchRetry": "The PINs don't match. Enter them again.",
+  "authWelcomeTitle": "Welcome to NexVault",
+  "authWelcomeBody": "Secrets live only on members' devices, never on a server. Your name is shown on the devices of the people in your workspaces.",
+  "authYourName": "Your name",
+  "authContinue": "Continue",
+  "authRestoreBackup": "Restore from backup",
+  "authNoLockTitle": "No screen lock on this device",
+  "authNoLockBody": "NexVault protects your data with the device's screen lock (fingerprint / Face ID or device passcode). Set a screen lock in the device Settings, then tap Try again.\n\nIf you'd rather not, you can use a separate 6-digit app PIN, but it is less secure than the screen lock.",
+  "authRetry": "Try again",
+  "authUseAppPin": "Use an app PIN",
+  "authBioTitle": "Unlock with fingerprint?",
+  "authBioBody": "Your data key is sealed in the device's security chip and only released when your fingerprint matches. Your PIN still works when needed.",
+  "authBioEnable": "Turn on fingerprint",
+  "authLater": "Not now",
+  "authCreatePin": "Create a 6-digit PIN",
+  "authRepeatPin": "Enter the PIN again",
+  "authPinHint": "This PIN unlocks the app on this device. NexVault cannot recover it.",
+  "authRecoveryTitle": "Unlock with recovery code",
+  "authCancel": "Cancel",
+  "authUnlock": "Unlock",
+  "authResealFailed": "Not protected by the screen lock yet: {error}",
+  "@authResealFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "authWrongRecovery": "{left, plural, =1{Wrong recovery code, 1 attempt left} other{Wrong recovery code, {left} attempts left}}",
+  "@authWrongRecovery": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
+  "authWrongPin": "{left, plural, =1{Wrong PIN, 1 attempt left} other{Wrong PIN, {left} attempts left}}",
+  "@authWrongPin": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
+  "authNoLockSetPin": "This device no longer has a screen lock. Set a 6-digit app PIN",
+  "authPinNowUsed": "From now on, open NexVault with this PIN. Set a screen lock again to use fingerprint or your device passcode.",
+  "authPinsDontMatch": "The PINs don't match",
+  "authLocked": "NexVault is locked",
+  "authDeviceUnlockHint": "Unlock with fingerprint / Face ID or your device passcode",
+  "authRetryIn": "{seconds, plural, =1{Try again in 1 second} other{Try again in {seconds} seconds}}",
+  "@authRetryIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authUseRecovery": "Use recovery code",
+  "authEnterAppPin": "Enter your app PIN to unlock",
+  "authUseFingerprint": "Use fingerprint",
+  "authForgotPinTitle": "Forgot PIN",
+  "authForgotPinBody": "Your PIN can't be recovered because your data lives only on this device. You can erase the data and restore from a backup, or ask another member to invite you again. Secrets on this device are lost if you have no backup.",
+  "authGotIt": "Got it",
+  "authForgotPinLink": "Forgot PIN?",
+  "ceremonyProposalSent": "Proposal to add members sent. The other members need to approve it via sync.",
+  "ceremonyCreateTitle": "Create {name}",
+  "@ceremonyCreateTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonyInviteTitle": "Invite to {name}",
+  "@ceremonyInviteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonyStep1Create": "Step 1: each member opens NexVault, taps \"Scan code\" and scans this code. Both devices need to be on the same Wi-Fi, or connected to your hotspot.",
+  "ceremonyStep1Invite": "Step 1: the new member opens NexVault, taps \"Scan code\" and scans this code while next to you. Then every other member needs to approve.",
+  "ceremonyStep2Host": "Step 2: read the code aloud to each person",
+  "ceremonyFinishing": "Finishing…",
+  "ceremonyWaitVerify": "Waiting for verification",
+  "ceremonyFinishWith": "{count, plural, =1{Finish with 1 person} other{Finish with {count} people}}",
+  "@ceremonyFinishWith": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ceremonyProposeAdd": "{count, plural, =1{Propose adding 1 person} other{Propose adding {count} people}}",
+  "@ceremonyProposeAdd": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ceremonyWrongCode": "Picked the wrong code",
+  "ceremonyWillBeAdded": "Will be added",
+  "ceremonyPickedRight": "Picked the right code",
+  "ceremonyWaitingPick": "Waiting for a pick",
+  "ceremonyReadAloud": "Read it aloud to {name}. The seal must look the same on both devices.",
+  "@ceremonyReadAloud": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonyMismatchHost": "The codes don't match: someone may be intercepting the connection. Don't add this person; ask them to scan again.",
+  "ceremonyIsThisPerson": "Is the person holding the device really {name}?",
+  "@ceremonyIsThisPerson": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonyNotThem": "Not them",
+  "ceremonyRightPerson": "Yes, it's them",
+  "ceremonyJoinFailed": "Couldn't join",
+  "ceremonyConnecting": "Connecting to {name}…",
+  "@ceremonyConnecting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonySameWifi": "Both devices need to be on the same Wi-Fi, or connect to {name}'s hotspot.",
+  "@ceremonySameWifi": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonyVerifyStep": "Step 2/3: verify {name}",
+  "@ceremonyVerifyStep": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonyPickCode": "Pick the 6 digits {name} reads aloud",
+  "@ceremonyPickCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonySealMatch": "The seal must also look the same on both devices.",
+  "ceremonyNoneMatch": "None of these match, stop",
+  "ceremonyVerified": "Verified",
+  "ceremonyWaitFinish": "Waiting for {name} to confirm and finish the workspace. Keep the app open.",
+  "@ceremonyWaitFinish": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonyStopped": "Stopped",
+  "ceremonyAbortedBody": "The codes didn't match, which means someone may be intercepting the connection between the two devices. You were not added. Ask {name} to create a new invite and scan again.",
+  "@ceremonyAbortedBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonyJoined": "Joined {name}",
+  "@ceremonyJoined": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ceremonyStep3Done": "Step 3/3 done. You and the other members have signed the workspace charter.",
+  "ceremonyOpenWorkspace": "Open workspace",
+  "ceremonyJoinTitle": "Join workspace",
+  "errWrongPin": "Wrong PIN",
+  "errSyncExpired": "This sync code has expired. Ask the person who opened sync for a new one.",
+  "errInviteExpired": "This invite has expired.",
+  "errCodeDamaged": "The code is damaged or incomplete. Scan it again.",
+  "errNotYourWorkspace": "This code is not for any workspace on this device.",
+  "errNotNexVaultCode": "This is not a NexVault code.",
+  "errHostUnreachable": "Could not reach the other device. Both need the same Wi-Fi, or the device that opened sync needs IPv6.",
+  "errRefused": "The other device refused the connection. This device may no longer be a member.",
+  "errNeedMember": "Add at least one other verified member.",
+  "errNotConfirmed": "This person has not picked the right code yet.",
+  "errVaultUnreadable": "Could not open the data on this device.",
+  "errRestoredSyncFirst": "This device was just restored from a backup. Sync with a member before editing.",
+  "errRemoved": "You were removed from this workspace, so it can no longer sync.",
+  "errFolderNotEmpty": "The folder is not empty. Move or delete its secrets and subfolders first.",
+  "errFolderIntoItself": "A folder cannot be moved into itself.",
+  "errFolderGone": "The folder no longer exists.",
+  "errAlreadyProposed": "This change has already been proposed.",
+  "errAlreadyMember": "This person is already a member.",
+  "errOnlyMemberInvites": "Only a member who holds the key can invite new people.",
+  "errWrongPassphrase": "Wrong backup password.",
+  "errNotBackup": "This file is not a NexVault backup.",
+  "errHasIdentity": "This device already has an identity. Erase its data before restoring.",
+  "errPassphraseShort": "The backup password needs at least 10 characters.",
+  "errSecretTooBig": "The secret is larger than 10 MB.",
+  "errSessionFull": "This sync session is full.",
+  "errNoKeyForItem": "This device does not have the key for this item yet. Sync with another member.",
+  "errNewerVersion": "The data was written by a newer NexVault. Update the app.",
+  "timeNeverSynced": "not synced yet",
+  "timeJustNow": "just now",
+  "timeMinutesAgo": "{n, plural, =1{1 minute ago} other{{n} minutes ago}}",
+  "timeHoursAgo": "{n, plural, =1{1 hour ago} other{{n} hours ago}}",
+  "timeYesterday": "yesterday",
+  "timeDaysAgo": "{n, plural, =1{1 day ago} other{{n} days ago}}",
+  "timeToday": "today {time}",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@timeHoursAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@timeDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@timeToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "keysEnableFingerprint": "Turn on fingerprint unlock",
+  "keysProtectWithLock": "Protect NexVault with your screen lock",
+  "keysReprotectWithLock": "Protect NexVault with your screen lock again",
+  "keysUnlockTitle": "Unlock NexVault",
+  "keysDevInvalidated": "The screen lock on this device was turned off or changed. Open with your recovery code.",
+  "keysBioInvalidated": "The fingerprints or Face ID on this device changed. Open with your PIN, then turn it on again.",
+  "keysUnlockFirst": "Unlock the app first.",
+  "keysNotEnrolled": "Biometric unlock is not turned on.",
+  "keysSealFailed": "Could not store the key. This device needs a passcode.",
+  "keysNoCipher": "No key came back from the prompt.",
+  "keysUsePin": "Use PIN",
+  "commonCancel": "Cancel",
+  "pinFilled": "{filled} of {length} digits entered",
+  "@pinFilled": {
+    "placeholders": {
+      "filled": {
+        "type": "int"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
+  "commonDelete": "Delete",
+  "pinEnterToContinue": "Enter your PIN to continue",
+  "pinWrongLeft": "{left, plural, =1{Wrong PIN, 1 try left} other{Wrong PIN, {left} tries left}}",
+  "@pinWrongLeft": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
+  "copyDisabled": "Copying is turned off in Settings.",
+  "copyKeyboardTitle": "Your keyboard may keep a copy",
+  "copyKeyboardBody": "NexVault clears the clipboard after 30 seconds, but some keyboards (Samsung Keyboard, Gboard…) keep their own clipboard history that the app cannot clear. After pasting, delete the entry from the keyboard's history, or turn the keyboard's clipboard history off.\n\nYou can turn copying off entirely in Settings.",
+  "copyUnderstood": "Got it, copy",
+  "qrLabel": "QR code",
+  "recoveryTitle": "Recovery code",
+  "recoveryIntro": "Use it if this device's screen lock is turned off or reset. The code is shown only once.",
+  "recoveryPrint": "Print",
+  "recoveryPrintHint": "Use a printer at home only",
+  "recoverySaved": "I wrote it down or printed it",
+  "recoveryPrintMeta": "Device: {device} &middot; Created: {date}",
+  "@recoveryPrintMeta": {
+    "placeholders": {
+      "device": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryPrintUse": "Use this code to open NexVault on this device only, if its screen lock is turned off or reset.",
+  "recoveryPrintKeep": "Keep this sheet somewhere safe, away from the device. Anyone with both this code and your device can open NexVault. When you create a new recovery code, this one stops working: destroy this sheet.",
+  "sealLabel": "Workspace seal",
+  "commonDone": "Done",
+  "homeCreateTitle": "Create workspace",
+  "homeCreateBody": "Every member needs to be here, on the same Wi-Fi or on your hotspot, to scan your code.",
+  "homeWorkspaceName": "Workspace name",
+  "homeCancel": "Cancel",
+  "homeCreateInvite": "Create invite code",
+  "homeNotSynced": "Not synced yet",
+  "homeSyncedWith": "Synced with {name} {ago}",
+  "@homeSyncedWith": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "ago": {
+        "type": "String"
+      }
+    }
+  },
+  "homeTitle": "Workspaces",
+  "homeSettings": "Settings",
+  "homeLockApp": "Lock app",
+  "homeEmptyTitle": "No workspaces yet",
+  "homeEmptyBody": "Create a workspace when the members are together, or scan the creator's invite code.",
+  "homePendingApproval": "Waiting for members to approve",
+  "homeNeedsAction": "A proposal needs your review",
+  "homeCounts": "{members, plural, =1{1 member} other{{members} members}}, {secrets, plural, =1{1 secret} other{{secrets} secrets}}",
+  "@homeCounts": {
+    "placeholders": {
+      "members": {
+        "type": "int"
+      },
+      "secrets": {
+        "type": "int"
+      }
+    }
+  },
+  "homeYouAre": "You are {name}, device {device}",
+  "@homeYouAre": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "device": {
+        "type": "String"
+      }
+    }
+  },
+  "homeCreateWorkspace": "Create workspace",
+  "homeScanCode": "Scan code",
+  "scanNoCodeInImage": "No NexVault code found in the image.",
+  "scanNotNexVault": "This is not a NexVault code.",
+  "scanPaste": "Paste code",
+  "scanCancel": "Cancel",
+  "scanOpenCode": "Open code",
+  "scanTitle": "Scan code",
+  "scanHint": "Scan a workspace invite or a sync code on another member's device.",
+  "scanCameraDenied": "NexVault isn't allowed to use the camera. Allow it to scan, or use \"Pick code image\" / \"Paste code\".",
+  "scanCameraFailed": "Couldn't open the camera. Use \"Pick code image\" or \"Paste code\".",
+  "scanAllowCamera": "Allow camera",
+  "scanPickImage": "Pick code image",
+  "secretActionCreated": "created",
+  "secretActionEdited": "edited",
+  "secretActionViewed": "viewed",
+  "secretActionCopied": "copied",
+  "secretActionExported": "exported a file",
+  "secretFieldP12Password": ".p12 password",
+  "secretFieldExpires": "Expires",
+  "secretFieldStorePassword": "Store password",
+  "secretFieldKeyPassword": "Key password",
+  "secretFieldHost": "Host",
+  "secretFieldSecretLabel": "{field} (secret)",
+  "@secretFieldSecretLabel": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "secretFieldExpiresHint": "Expires (yyyy-mm-dd)",
+  "secretAuthToView": "Authenticate to view {name}",
+  "@secretAuthToView": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "secretBinaryUseExport": "The content is a binary file. Use \"Export file\".",
+  "secretCopiedAutoClear": "Copied. The clipboard clears itself after 30 seconds.",
+  "secretExportTitle": "Export file?",
+  "secretExportBody": "The file holds the private key unencrypted. Only save it somewhere you trust. The export is recorded in the history.",
+  "secretCancel": "Cancel",
+  "secretExport": "Export file",
+  "secretMoved": "Moved to folder",
+  "secretDeleteTitle": "Delete {name}?",
+  "@secretDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "secretDeleteBody": "The secret is deleted on every device after the next sync. The history is kept.",
+  "secretDelete": "Delete secret",
+  "secretMore": "More",
+  "secretCopyContent": "Copy content",
+  "secretAutoClear30": "Clears after 30 seconds",
+  "secretCopyField": "Copy {field}",
+  "@secretCopyField": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "secretEdit": "Edit",
+  "secretMoveFolder": "Move to folder",
+  "secretSubtitle": "{kind}, version {version}",
+  "@secretSubtitle": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "secretCopiedField": "Copied {field}",
+  "@secretCopiedField": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "secretFileSize": "{name}, {size} bytes",
+  "@secretFileSize": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "secretContentShown": "Secret content is showing",
+  "secretHoldToViewContent": "Press and hold to view the secret content",
+  "secretHideIn": "{seconds, plural, =1{Hides in 1 second} other{Hides in {seconds} seconds}}",
+  "@secretHideIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "secretShow10s": "Show for 10 seconds",
+  "secretHistory": "History",
+  "secretConflictBody": "Two people edited this secret at the same time. Both versions are kept; pick the right one.",
+  "secretView": "View",
+  "secretKeepThis": "Keep this one",
+  "secretAuthToViewVersion": "Authenticate to view {name}'s version",
+  "@secretAuthToViewVersion": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "secretVersionOf": "{name}'s version",
+  "@secretVersionOf": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "secretBinaryFile": "Binary file {name}, {size} bytes",
+  "@secretBinaryFile": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "secretClose": "Close",
+  "secretKeptVersion": "Kept {name}'s version",
+  "@secretKeptVersion": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "secretHoldToView": "Press and hold to view",
+  "secretHoldToViewWhat": "Press and hold to view {what}",
+  "@secretHoldToViewWhat": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "secretAuthedHint": "Authenticated for 60 seconds. The content hides again when you let go.",
+  "secretNeedAuthHint": "Needs your fingerprint or PIN. The content hides again when you let go.",
+  "secretCopiedFieldAutoClear": "Copied {field}. The clipboard clears itself after 30 seconds.",
+  "@secretCopiedFieldAutoClear": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "secretBinaryUseMenu": "Binary file {name}. Use \"Export file\" in the menu.",
+  "@secretBinaryUseMenu": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "secretWhatKey": "the private key",
+  "secretWhatP12": "the cert and password",
+  "secretWhatJks": "the keystore and passwords",
+  "secretWhatEnv": "the environment variables",
+  "secretWhatContent": "the content",
+  "secretKindP12": ".p12 certificate",
+  "secretKindEnv": ".env file",
+  "secretKindText": "Password / text",
+  "secretNameRequired": "Give the secret a name",
+  "secretFileOrPaste": "Choose a file or paste the content",
+  "secretAddTitle": "Add secret",
+  "secretEditTitle": "Edit secret",
+  "secretKind": "Type",
+  "secretNameHint": "Name, e.g. APNs production",
+  "secretNoFolder": "Not in a folder",
+  "secretChange": "Change",
+  "secretChooseFile": "Choose file",
+  "secretChooseFileExt": "Choose .{ext} file",
+  "@secretChooseFileExt": {
+    "placeholders": {
+      "ext": {
+        "type": "String"
+      }
+    }
+  },
+  "secretChangeFile": "Change file",
+  "secretOrPaste": "Or paste the content",
+  "secretTextHint": "Password or secret note",
+  "secretEncryptedNote": "The secret is encrypted on this device. Other members receive it at the next sync.",
+  "secretSaving": "Saving…",
+  "secretSave": "Save secret",
+  "settingsCurrentPin": "Enter current PIN",
+  "settingsWrongPin": "Wrong PIN",
+  "settingsNewPin": "New PIN",
+  "settingsRepeatNewPin": "Enter the new PIN again",
+  "settingsMismatch": "The two entries don't match",
+  "settingsPinChanged": "PIN changed",
+  "settingsPinToDevice": "Enter PIN to switch to the screen lock",
+  "settingsSwitchedToDevice": "NexVault now opens with the screen lock. The old PIN no longer works.",
+  "settingsAuthNewRecovery": "Authenticate to create a new recovery code",
+  "settingsLockNow": "As soon as you leave the app",
+  "settingsLock1": "After 1 minute",
+  "settingsLock5": "After 5 minutes",
+  "settingsAutoLock": "Auto-lock",
+  "settingsAuthCopy": "Authenticate to allow copying",
+  "settingsPinForBio": "Enter PIN to turn on fingerprint unlock",
+  "settingsSetBackupPass": "Set backup password",
+  "settingsBackupPass": "Backup password",
+  "settingsBackupPassHint": "At least 10 characters. There is no way to recover the backup if you forget this password. A long sentence works well.",
+  "settingsPassword": "Password",
+  "settingsRepeat": "Repeat",
+  "settingsCancel": "Cancel",
+  "settingsMinChars": "At least 10 characters needed",
+  "settingsContinue": "Continue",
+  "settingsAuthBackup": "Authenticate to back up",
+  "settingsBackupSaved": "Backup saved",
+  "settingsWipeTitle": "Erase all data on this device?",
+  "settingsWipeBody": "Your identity, workspaces and every secret on this device are permanently erased. Data on other members' devices stays. To get back into a workspace, you need to restore from a backup or be invited again in person.",
+  "settingsWipeConfirm": "Erase all",
+  "settingsAuthWipe": "Authenticate to erase data",
+  "settingsTitle": "Settings",
+  "settingsDeviceId": "Device ID ",
+  "settingsUnlockSection": "Unlock",
+  "settingsScreenLock": "Phone screen lock",
+  "settingsScreenLockSub": "Opens with fingerprint / Face ID or the device passcode",
+  "settingsNewRecovery": "Create a new recovery code",
+  "settingsNewRecoverySub": "The old code will stop working",
+  "settingsChangePin": "Change PIN",
+  "settingsToDevice": "Switch to the screen lock",
+  "settingsToDeviceSub": "Use fingerprint / Face ID or the device passcode instead of the app PIN",
+  "settingsBio": "Unlock with fingerprint",
+  "settingsBioSub": "The data key is sealed in the phone's security chip",
+  "settingsCopy": "Allow copying secrets",
+  "settingsCopySub": "Cleared after 30 seconds, but the keyboard's clipboard history may still keep it",
+  "settingsAutoLockAfter1": "After 1 minute in the background",
+  "settingsAutoLockAfterMin": "After {minutes} minutes in the background",
+  "@settingsAutoLockAfterMin": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsAutoLockSub": "{when}. Viewing a secret always asks again.",
+  "@settingsAutoLockSub": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsBackupSection": "Backup",
+  "settingsExport": "Export encrypted backup",
+  "settingsExportSub": "Your identity and every workspace, locked with a separate password. Use it when you lose or change your phone.",
+  "settingsDangerSection": "Danger zone",
+  "settingsWipe": "Erase all data on this device",
+  "settingsVersion": "NexVault core {core}, vault format v{vault}",
+  "@settingsVersion": {
+    "placeholders": {
+      "core": {
+        "type": "String"
+      },
+      "vault": {
+        "type": "String"
+      }
+    }
+  },
+  "syncPeerDone": "Done",
+  "syncPeerSyncing": "Syncing",
+  "syncPeerLeft": "Left",
+  "syncPeerNotScanned": "Not scanned",
+  "syncPeerRemovedName": "{name} (removed)",
+  "@syncPeerRemovedName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "syncPeerRejected": "Rejected",
+  "syncPeerNewMember": "{name} (new member)",
+  "@syncPeerNewMember": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStrangers": "Unknown devices ({count})",
+  "@syncStrangers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncHostTitle": "Sync {name}",
+  "@syncHostTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "syncHostIntro": "Members open NexVault and scan this code. If someone is far away, send them a picture of the code by chat: only devices in the workspace can decrypt it.",
+  "syncExpiresIn": "Code expires in ",
+  "syncExpired": "Code expired, connections are closed",
+  "syncConnectVia": "Connects over the same Wi-Fi network or IPv6",
+  "syncShareText": "NexVault sync code ({name}), expires in {left}",
+  "@syncShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "left": {
+        "type": "String"
+      }
+    }
+  },
+  "syncShareButton": "Send the code picture to someone far away",
+  "syncNewCode": "New code",
+  "syncEnd": "Finish",
+  "syncJoinConnecting": "Connecting to {host}…",
+  "@syncJoinConnecting": {
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "syncJoinConnectingHint": "Trying the same Wi-Fi network first, then IPv6.",
+  "syncJoinSyncing": "Syncing with {host}",
+  "@syncJoinSyncing": {
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "syncJoinCounts": "Received {received}, sent {sent} changes.",
+  "@syncJoinCounts": {
+    "placeholders": {
+      "received": {
+        "type": "String"
+      },
+      "sent": {
+        "type": "String"
+      }
+    }
+  },
+  "syncJoinDone": "Synced with {host}",
+  "@syncJoinDone": {
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "syncJoinDoneBody": "Received {received}, sent {sent} changes. Keep this screen open to receive more changes from others in this session.",
+  "@syncJoinDoneBody": {
+    "placeholders": {
+      "received": {
+        "type": "String"
+      },
+      "sent": {
+        "type": "String"
+      }
+    }
+  },
+  "syncJoinClosed": "The sync session has ended",
+  "syncJoinFailed": "Could not sync",
+  "syncDone": "Done",
+  "syncClose": "Close",
+  "workspaceSave": "Save",
+  "workspaceFolderName": "Folder name",
+  "workspaceCancel": "Cancel",
+  "workspaceNewFolder": "New folder",
+  "workspaceCreate": "Create",
+  "workspaceRename": "Rename",
+  "workspaceMoveFolder": "Move to another folder",
+  "workspaceDeleteFolder": "Delete folder",
+  "workspaceDeleteFolderHint": "Only empty folders can be deleted",
+  "workspaceRenameFolder": "Rename folder",
+  "workspaceMembers": "Members",
+  "workspaceMembersRule": "Adding someone needs every member to agree. Removing someone needs 2/3 of the members who stay to agree.",
+  "workspaceMemberYou": "{name} (you)",
+  "@workspaceMemberYou": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceThisDevice": "This device",
+  "workspaceMemberSynced": "Synced {when}",
+  "@workspaceMemberSynced": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceProposeRemoval": "Propose removal",
+  "workspaceInviteMember": "Invite a new member",
+  "workspaceProposeRemoveTitle": "Propose removing {name}?",
+  "@workspaceProposeRemoveTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceProposeRemoveBody": "The proposal takes effect once enough members agree over their syncs. The workspace then switches to a new key. The removed member has already seen the current secrets: rotate the important keys.",
+  "workspaceExpired": "Expired",
+  "workspaceExpiresIn": "{days, plural, =1{Expires in 1 day} other{Expires in {days} days}}",
+  "@workspaceExpiresIn": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "workspaceConflict": "2 versions, pick one",
+  "workspaceVersionDate": "Version {version}, {date}",
+  "@workspaceVersionDate": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceJustCreated": "Just created",
+  "workspaceUpdated": "Updated {when}",
+  "@workspaceUpdated": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceMemberYouShort": "{name}\n(you)",
+  "@workspaceMemberYouShort": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workspacePendingBanner": "Waiting for the members to agree to add you. Open sync with them to receive the approvals and the workspace key.",
+  "workspaceStaleBanner": "This device was just restored from a backup. Open sync with a member to get the changes made after the backup; you can edit again after that.",
+  "workspaceRemovedBanner": "You were removed from this workspace. New data will no longer reach this device.",
+  "workspaceSearchHint": "{count, plural, =1{Search 1 secret} other{Search {count} secrets}}",
+  "@workspaceSearchHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workspaceAll": "All",
+  "workspaceSecretCount": "{count, plural, =1{1 secret} other{{count} secrets}}",
+  "@workspaceSecretCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workspaceFolderOptions": "Folder options",
+  "workspaceEmpty": "No secrets yet. Add a .p8 key, .p12 cert, keystore, SSH key or .env file, group them into folders, then open sync to share.",
+  "workspaceFolderEmpty": "Empty folder.",
+  "workspaceAddSecret": "Add secret",
+  "workspaceOpenSync": "Open sync",
+  "workspaceNeverSynced": "not synced",
+  "workspaceJustNow": "just now",
+  "workspaceMinutesShort": "{n} min",
+  "@workspaceMinutesShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "workspaceHoursShort": "{n} hr",
+  "@workspaceHoursShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "workspaceDaysShort": "{n, plural, =1{1 day} other{{n} days}}",
+  "@workspaceDaysShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "workspaceProposalAdd": "{proposer} proposed adding {name}: {approvals}/{needed} agreed",
+  "@workspaceProposalAdd": {
+    "placeholders": {
+      "proposer": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "approvals": {
+        "type": "String"
+      },
+      "needed": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceProposalRemove": "Proposal to remove {name}: {approvals}/{needed} agreed",
+  "@workspaceProposalRemove": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "approvals": {
+        "type": "String"
+      },
+      "needed": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceProposalAwaitingKeys": "{text}. Waiting to hand over keys at the next sync.",
+  "@workspaceProposalAwaitingKeys": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceApproveAddTitle": "Agree to add {name}?",
+  "@workspaceApproveAddTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceApproveRemoveTitle": "Agree to remove {name}?",
+  "@workspaceApproveRemoveTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceApproveAddBody": "{proposer} met {name} in person and verified them. Once everyone agrees, {name} can read every secret in the workspace.",
+  "@workspaceApproveAddBody": {
+    "placeholders": {
+      "proposer": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceApproveRemoveBody": "Once enough members agree, {name} no longer receives new data and the workspace switches to a new key.",
+  "@workspaceApproveRemoveBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workspaceApprove": "Agree",
+  "workspacePickFolder": "Choose folder",
+  "workspaceNoFolder": "Not in any folder"
+}

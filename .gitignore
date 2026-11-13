@@ -1,0 +1,13 @@
+target/
+core/target/
+app/build/
+app/.dart_tool/
+*.iml
+.idea/
+app/android/.gradle/
+app/android/local.properties
+app/android/app/src/main/jniLibs/
+app/android/key.properties
+*.keystore
+*.jks
+nv-data/
