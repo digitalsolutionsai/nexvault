@@ -10,6 +10,7 @@ import '../core/bridge.dart';
 import '../core/keys.dart';
 import '../l10n/l10n.dart';
 import '../ui/theme.dart';
+import '../ui/hotspot.dart';
 import '../ui/widgets.dart';
 import 'ceremony.dart';
 import 'sync.dart';
@@ -45,7 +46,9 @@ Future<void> openLink(BuildContext context, String link) async {
 
 /// Route any nexvault:// code to the right screen.
 Future<void> openCode(BuildContext context, String code, {bool replace = false}) async {
-  code = code.trim();
+  final (plain, wifi) = splitWifi(code.trim());
+  code = plain;
+  var joined = false;
   try {
     final kind = (await Core.call('code_kind', {'code': code}))['kind'];
     if (!context.mounted) return;
@@ -58,19 +61,37 @@ Future<void> openCode(BuildContext context, String code, {bool replace = false})
       toast(context, tr.scanNotNexVault, error: true);
       return;
     }
+    // The host started a private Wi-Fi because there is no shared one: join it first, and leave
+    // it again when the pairing or sync screen closes.
+    if (wifi != null) {
+      toast(context, tr.hotspotJoining('${wifi['s']}'));
+      try {
+        await Keys.wifiJoin(wifi);
+        joined = true;
+        if (Platform.isIOS) await Future<void>.delayed(const Duration(seconds: 3)); // DHCP
+      } catch (_) {
+        if (context.mounted) toast(context, tr.hotspotJoinFailed, error: true);
+      }
+      if (!context.mounted) return;
+    }
     final route = MaterialPageRoute(builder: (_) => page);
     if (!replace) {
-      Navigator.push(context, route);
+      await Navigator.push(context, route);
       return;
     }
     // Keep the scanner underneath until the join/sync screen closes, so whoever opened the
     // scanner (home) only reloads after the new data has arrived. pushReplacement would
     // complete the scanner's route immediately and the caller would reload too early.
+    // The join screen may replace itself with the workspace when it finishes, so remove the
+    // scanner's own route rather than popping whatever is on top.
     final nav = Navigator.of(context);
+    final scanner = ModalRoute.of(context);
     await nav.push(route);
-    if (nav.mounted && nav.canPop()) nav.pop();
+    if (nav.mounted && scanner != null && scanner.isActive) nav.removeRoute(scanner);
   } catch (e) {
     if (context.mounted) toast(context, errText(e), error: true);
+  } finally {
+    if (joined) await Keys.wifiLeave();
   }
 }
 
@@ -161,7 +182,7 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-            child: Text(tr.scanHint, style: Theme.of(context).textTheme.bodySmall),
+            child: Text(tr.scanHint, style: NV.dark().textTheme.bodySmall), // context is above DarkZone
           ),
           Expanded(
             child: Padding(

@@ -1,6 +1,6 @@
 # NexVault
 
-Share secrets (Apple .p8 keys, .p12 certificates, keystores, SSH keys, .env files, passwords)
+Share secrets (logins, API keys, Wi-Fi passwords, secure notes, and files such as .env, SSH keys, .p12 certificates, keystores and Apple .p8 keys)
 inside a small group — founders, a DevOps team, a family — **without any server**.
 
 Each workspace is a group of equal peers. Data lives only on the members' devices and syncs

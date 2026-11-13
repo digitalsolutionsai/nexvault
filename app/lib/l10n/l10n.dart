@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/widgets.dart';
 
 import 'gen/app_localizations.dart';
@@ -21,3 +23,6 @@ Locale resolveLocale(List<Locale>? phone, String? override) {
 
 /// Language picked in Settings ('vi', 'en', or null = phone language). The app rebuilds on change.
 final language = ValueNotifier<String?>(null);
+
+/// What the phone calls its biometrics: "Face ID / Touch ID" on iOS, "fingerprint" on Android.
+String get bioName => Platform.isIOS ? tr.bioIos : tr.bioAndroid;

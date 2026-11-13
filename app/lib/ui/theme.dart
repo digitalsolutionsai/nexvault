@@ -40,6 +40,9 @@ class NV {
       onPrimary: dark ? ground : Colors.white,
       secondary: brass,
       onSecondary: ink,
+      // selected chips, tonal buttons: verdigris tint, never brass (brass = brand + seal only)
+      secondaryContainer: dark ? const Color(0xFF2E625B) : const Color(0xFFD3E7E1),
+      onSecondaryContainer: fg,
       error: dark ? dBad : danger,
       onError: Colors.white,
       surface: dark ? ground : paper,
@@ -107,6 +110,9 @@ class NV {
       ),
       snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating, backgroundColor: ink),
       dividerTheme: const DividerThemeData(color: line, space: 1, thickness: 1),
+      dialogTheme: DialogThemeData(
+        titleTextStyle: TextStyle(fontFamily: sans, fontSize: 21, fontWeight: FontWeight.w700, color: fg, letterSpacing: -.2),
+      ),
       chipTheme: ChipThemeData(
         labelStyle: TextStyle(fontFamily: sans, fontSize: 14, color: fg),
         side: BorderSide(color: dark ? dEdge : edge),

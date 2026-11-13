@@ -303,6 +303,9 @@ pub struct JoinStatus {
     pub received: usize,
     pub sent: usize,
     pub error: Option<String>,
+    /// How the two devices reached each other once connected: "nearby" (same network) or
+    /// "internet" (e.g. over 4G/5G with IPv6). Empty while connecting.
+    pub via: String,
 }
 
 pub struct JoinSession {
@@ -372,8 +375,15 @@ fn run_join(
     t: TicketInner,
 ) -> Result<()> {
     let stream = net::connect_any(&t.addrs, t.port)?;
+    let via = match (stream.local_addr(), stream.peer_addr()) {
+        (Ok(l), Ok(p)) => net::path_kind(l.ip(), p.ip()),
+        _ => "",
+    };
     let chan = Chan::initiator(stream, &dh_sk, &host.dh_pk, &t.psk)?;
-    sess.set(|s| s.state = "syncing".into());
+    sess.set(|s| {
+        s.state = "syncing".into();
+        s.via = via.into();
+    });
     let my_vv = vault.lock().unwrap().ws(&ws)?.vv();
     // a host that refuses us may close before Hello lands: still read its reason
     let sent = chan.send(&Msg::Hello {

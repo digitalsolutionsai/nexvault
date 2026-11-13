@@ -45,8 +45,9 @@ class SEn extends S {
   String get authNoLockTitle => 'No screen lock on this device';
 
   @override
-  String get authNoLockBody =>
-      'NexVault protects your data with the device\'s screen lock (fingerprint / Face ID or device passcode). Set a screen lock in the device Settings, then tap Try again.\n\nIf you\'d rather not, you can use a separate 6-digit app PIN, but it is less secure than the screen lock.';
+  String authNoLockBody(String bio) {
+    return 'NexVault protects your data with the device\'s screen lock ($bio or device passcode). Set a screen lock in the device Settings, then tap Try again.\n\nIf you\'d rather not, you can use a separate 6-digit app PIN, but it is less secure than the screen lock.';
+  }
 
   @override
   String get authRetry => 'Try again';
@@ -128,8 +129,9 @@ class SEn extends S {
   String get authLocked => 'NexVault is locked';
 
   @override
-  String get authDeviceUnlockHint =>
-      'Unlock with fingerprint / Face ID or your device passcode';
+  String authDeviceUnlockHint(String bio) {
+    return 'Unlock with $bio or your device passcode';
+  }
 
   @override
   String authRetryIn(int seconds) {
@@ -333,7 +335,7 @@ class SEn extends S {
 
   @override
   String get errHostUnreachable =>
-      'Could not reach the other device. Both need the same Wi-Fi, or the device that opened sync needs IPv6.';
+      'Could not reach the other device. Use the same Wi-Fi, or have the device that opened sync switch to 4G/5G (most carriers support IPv6).';
 
   @override
   String get errRefused =>
@@ -470,8 +472,9 @@ class SEn extends S {
       'The screen lock on this device was turned off or changed. Open with your recovery code.';
 
   @override
-  String get keysBioInvalidated =>
-      'The fingerprints or Face ID on this device changed. Open with your PIN, then turn it on again.';
+  String keysBioInvalidated(String bio) {
+    return 'The biometrics ($bio) on this device changed. Open with your PIN, then turn it on again.';
+  }
 
   @override
   String get keysUnlockFirst => 'Unlock the app first.';
@@ -673,7 +676,7 @@ class SEn extends S {
   String get scanAllowCamera => 'Allow camera';
 
   @override
-  String get scanPickImage => 'Pick code image';
+  String get scanPickImage => 'From image';
 
   @override
   String get secretActionCreated => 'created';
@@ -894,7 +897,7 @@ class SEn extends S {
   String get secretKindEnv => '.env file';
 
   @override
-  String get secretKindText => 'Password / text';
+  String get secretKindText => 'Secure note';
 
   @override
   String get secretNameRequired => 'Give the secret a name';
@@ -912,7 +915,7 @@ class SEn extends S {
   String get secretKind => 'Type';
 
   @override
-  String get secretNameHint => 'Name, e.g. APNs production';
+  String get secretNameHint => 'Name, e.g. Production server key';
 
   @override
   String get secretNoFolder => 'Not in a folder';
@@ -935,7 +938,8 @@ class SEn extends S {
   String get secretOrPaste => 'Or paste the content';
 
   @override
-  String get secretTextHint => 'Password or secret note';
+  String get secretTextHint =>
+      'Anything to keep private: backup codes, account numbers, notes…';
 
   @override
   String get secretEncryptedNote =>
@@ -1051,8 +1055,9 @@ class SEn extends S {
   String get settingsScreenLock => 'Phone screen lock';
 
   @override
-  String get settingsScreenLockSub =>
-      'Opens with fingerprint / Face ID or the device passcode';
+  String settingsScreenLockSub(String bio) {
+    return 'Opens with $bio or the device passcode';
+  }
 
   @override
   String get settingsNewRecovery => 'Create a new recovery code';
@@ -1067,8 +1072,9 @@ class SEn extends S {
   String get settingsToDevice => 'Switch to the screen lock';
 
   @override
-  String get settingsToDeviceSub =>
-      'Use fingerprint / Face ID or the device passcode instead of the app PIN';
+  String settingsToDeviceSub(String bio) {
+    return 'Use $bio or the device passcode instead of the app PIN';
+  }
 
   @override
   String get settingsBio => 'Unlock with fingerprint';
@@ -1155,7 +1161,7 @@ class SEn extends S {
 
   @override
   String get syncHostIntro =>
-      'Members open NexVault and scan this code. If someone is far away, send them a picture of the code by chat: only devices in the workspace can decrypt it.';
+      'Members open NexVault and scan this code. For someone far away, send a picture of it by chat (only workspace devices can decrypt it) and keep this device on 4G/5G.';
 
   @override
   String get syncExpiresIn => 'Code expires in ';
@@ -1164,7 +1170,8 @@ class SEn extends S {
   String get syncExpired => 'Code expired, connections are closed';
 
   @override
-  String get syncConnectVia => 'Connects over the same Wi-Fi network or IPv6';
+  String get syncConnectVia =>
+      'Direct over Wi-Fi or 4G/5G, with no server in between';
 
   @override
   String syncShareText(String name, String left) {
@@ -1172,7 +1179,7 @@ class SEn extends S {
   }
 
   @override
-  String get syncShareButton => 'Send the code picture to someone far away';
+  String get syncShareButton => 'Send to someone far away';
 
   @override
   String get syncNewCode => 'New code';
@@ -1187,7 +1194,7 @@ class SEn extends S {
 
   @override
   String get syncJoinConnectingHint =>
-      'Trying the same Wi-Fi network first, then IPv6.';
+      'Trying the same Wi-Fi first, then a direct connection over 4G/5G.';
 
   @override
   String syncJoinSyncing(String host) {
@@ -1363,7 +1370,7 @@ class SEn extends S {
 
   @override
   String get workspaceEmpty =>
-      'No secrets yet. Add a .p8 key, .p12 cert, keystore, SSH key or .env file, group them into folders, then open sync to share.';
+      'No secrets yet. Add logins, API keys, Wi-Fi passwords, notes or files such as .env and SSH keys, group them into folders, then open sync to share.';
 
   @override
   String get workspaceFolderEmpty => 'Empty folder.';
@@ -1449,4 +1456,176 @@ class SEn extends S {
 
   @override
   String get workspaceNoFolder => 'Not in any folder';
+
+  @override
+  String get syncPathNoServer => 'No server in between';
+
+  @override
+  String get syncPathNearby => 'Same Wi-Fi';
+
+  @override
+  String get syncPathInternet => 'Direct over 4G/5G (IPv6)';
+
+  @override
+  String get syncPathEither => 'Same Wi-Fi, or direct over 4G/5G';
+
+  @override
+  String get syncPathThisDevice => 'This device';
+
+  @override
+  String get syncPathOther => 'Other device';
+
+  @override
+  String get syncHowTitle => 'How sync works';
+
+  @override
+  String get syncHowBody =>
+      'The two devices connect to each other directly: over the same Wi-Fi when you are close, or over 4G/5G using IPv6 when you are apart.\n\nNo NexVault or third-party server is involved and nothing is stored anywhere else. Everything is end-to-end encrypted, so the Wi-Fi router or your carrier only carries packets it cannot read.\n\nThe code works for 5 minutes and only for members of this workspace.';
+
+  @override
+  String get syncHowButton => 'How it works';
+
+  @override
+  String get bioAndroid => 'fingerprint';
+
+  @override
+  String get bioIos => 'Face ID / Touch ID';
+
+  @override
+  String get ceremonyWaitingScan => 'Waiting for members to scan…';
+
+  @override
+  String get secretKindLogin => 'Login';
+
+  @override
+  String get secretKindApi => 'API key';
+
+  @override
+  String get secretKindWifi => 'Wi-Fi';
+
+  @override
+  String get secretKindFiles => 'Files & keys';
+
+  @override
+  String get secretKindFile => 'Any file';
+
+  @override
+  String get secretKindLoginLong => 'Login';
+
+  @override
+  String get secretKindApiLong => 'API key / token';
+
+  @override
+  String get secretKindWifiLong => 'Wi-Fi password';
+
+  @override
+  String get secretKindFileLong => 'File';
+
+  @override
+  String get secretFileType =>
+      'File type: picked automatically from the file, or choose';
+
+  @override
+  String get secretFieldWebsite => 'Website or app';
+
+  @override
+  String get secretFieldUsername => 'Username or email';
+
+  @override
+  String get secretFieldWifiName => 'Network name';
+
+  @override
+  String get secretPassword => 'Password';
+
+  @override
+  String get secretApiValue => 'Key or token';
+
+  @override
+  String get secretGenerate => 'Generate a strong password';
+
+  @override
+  String get secretShowValue => 'Show';
+
+  @override
+  String get secretHideValue => 'Hide';
+
+  @override
+  String get secretPasswordRequired => 'Enter the password';
+
+  @override
+  String get secretKeyRequired => 'Enter the key or token';
+
+  @override
+  String get secretNameHintLogin => 'Name, e.g. Company Gmail';
+
+  @override
+  String get secretNameHintApi => 'Name, e.g. Stripe production';
+
+  @override
+  String get secretNameHintWifi => 'Name, e.g. Office Wi-Fi';
+
+  @override
+  String get secretNameHintNote => 'Name, e.g. 2FA backup codes';
+
+  @override
+  String get secretWhatPassword => 'the password';
+
+  @override
+  String get secretWhatApi => 'the key';
+
+  @override
+  String get secretCopyPassword => 'Copy password';
+
+  @override
+  String get secretWifiQr => 'Show QR to join this Wi-Fi';
+
+  @override
+  String get secretWifiQrHint =>
+      'On the other phone, open the camera and scan to join. Closes by itself in 60 seconds.';
+
+  @override
+  String get secretWifiNoName => 'Add the network name first (Edit)';
+
+  @override
+  String get hotspotOffer =>
+      'No shared Wi-Fi? Start a private Wi-Fi on this phone';
+
+  @override
+  String hotspotOnTitle(String ssid) {
+    return 'Private Wi-Fi on: $ssid';
+  }
+
+  @override
+  String get hotspotOnHint =>
+      'The code includes it: the other phone joins by scanning. It has no internet and turns off when you leave this screen.';
+
+  @override
+  String get hotspotStop => 'Turn off';
+
+  @override
+  String get hotspotDenied =>
+      'NexVault needs the Nearby devices permission to start a Wi-Fi. It does not use your location.';
+
+  @override
+  String get hotspotFailed =>
+      'Could not start a Wi-Fi on this phone. Turn off the phone\'s own hotspot and try again.';
+
+  @override
+  String hotspotJoining(String ssid) {
+    return 'Joining the other phone\'s Wi-Fi ($ssid)…';
+  }
+
+  @override
+  String get hotspotJoinFailed =>
+      'Could not join the other phone\'s Wi-Fi. Trying the current network instead.';
+
+  @override
+  String get hotspotPermTitle => 'Allow Nearby devices';
+
+  @override
+  String get hotspotPermBody =>
+      'Android asks for the Nearby devices permission before an app can start a Wi-Fi. Its wording mentions the position of devices, but NexVault only uses it to start this private Wi-Fi and never sees your location.';
+
+  @override
+  String get hotspotPermContinue => 'Continue';
 }

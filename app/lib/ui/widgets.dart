@@ -144,10 +144,17 @@ class FileBadge extends StatelessWidget {
         bottomRight: Radius.circular(8),
       ),
     ),
-    child: Text(
-      label(kind),
-      style: const TextStyle(fontFamily: NV.mono, fontSize: 12, fontWeight: FontWeight.w500, color: NV.ink),
-    ),
+    child: switch (kind) {
+      'login' => const Icon(Icons.person_outline, size: 22, color: NV.ink),
+      'api' => const Icon(Icons.vpn_key_outlined, size: 22, color: NV.ink),
+      'wifi' => const Icon(Icons.wifi, size: 22, color: NV.ink),
+      'text' => const Icon(Icons.sticky_note_2_outlined, size: 22, color: NV.ink),
+      'file' => const Icon(Icons.insert_drive_file_outlined, size: 22, color: NV.ink),
+      _ => Text(
+        label(kind),
+        style: const TextStyle(fontFamily: NV.mono, fontSize: 12, fontWeight: FontWeight.w500, color: NV.ink),
+      ),
+    },
   );
 }
 

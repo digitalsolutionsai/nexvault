@@ -54,6 +54,7 @@ class MainActivity : FlutterFragmentActivity() {
     private var pendingLink: String? = null
     private var labelUsePin = "Use PIN" // biometric prompt button, in the app language (setLabels)
     private var printView: android.webkit.WebView? = null // kept alive while the print job runs
+    private val hotspot by lazy { Hotspot(this) { if (::channel.isInitialized) channel.invokeMethod("hotspotStopped", null) } }
     /** One Keystore seal of the vault key. */
     private inner class Seal(val dev: Boolean) {
         val alias = if (dev) "nexvault_dev_v1" else "nexvault_bio_v1"
@@ -150,6 +151,19 @@ class MainActivity : FlutterFragmentActivity() {
         return i?.dataString?.takeIf { it.startsWith("nexvault://") }
     }
 
+    override fun onRequestPermissionsResult(code: Int, perms: Array<out String>, grants: IntArray) {
+        super.onRequestPermissionsResult(code, perms, grants)
+        if (code == Hotspot.REQ_NEARBY) {
+            hotspot.onPermission(grants.isNotEmpty() && grants[0] == android.content.pm.PackageManager.PERMISSION_GRANTED)
+        }
+    }
+
+    override fun onDestroy() {
+        hotspot.stop()
+        hotspot.leave()
+        super.onDestroy()
+    }
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         linkOf(intent)?.let { link ->
@@ -178,7 +192,15 @@ class MainActivity : FlutterFragmentActivity() {
                 "bioUnlock" -> bioUnlock(seal(call), call.argument<String>("title")!!, call.argument<String>("dir")!!, result)
                 "bioCheck" -> bioCheck(seal(call), call.argument<String>("title")!!, result)
                 "bioClear" -> { val k = seal(call); k.prefs.edit().clear().apply(); deleteKey(k); result.success(null) }
-                "netIfaces" -> result.success(netIfaces())
+                "netIfaces" -> result.success(netIfaces().let { it + hotspot.ifaces(it) })
+                "hotspotSupported" -> result.success(hotspot.supported())
+                "hotspotStart" -> hotspot.start(result)
+                "hotspotPermitted" -> result.success(hotspot.permitted())
+                "hotspotStop" -> { hotspot.stop(); result.success(null) }
+                "wifiJoin" -> hotspot.join(
+                    call.argument<String>("ssid")!!, call.argument<String>("pass")!!, call.argument<Int>("sec") ?: 1, result,
+                )
+                "wifiLeave" -> { hotspot.leave(); result.success(null) }
                 "openAppSettings" -> {
                     startActivity(
                         Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, android.net.Uri.fromParts("package", packageName, null))

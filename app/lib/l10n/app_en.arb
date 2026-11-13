@@ -11,7 +11,7 @@
   "authContinue": "Continue",
   "authRestoreBackup": "Restore from backup",
   "authNoLockTitle": "No screen lock on this device",
-  "authNoLockBody": "NexVault protects your data with the device's screen lock (fingerprint / Face ID or device passcode). Set a screen lock in the device Settings, then tap Try again.\n\nIf you'd rather not, you can use a separate 6-digit app PIN, but it is less secure than the screen lock.",
+  "authNoLockBody": "NexVault protects your data with the device's screen lock ({bio} or device passcode). Set a screen lock in the device Settings, then tap Try again.\n\nIf you'd rather not, you can use a separate 6-digit app PIN, but it is less secure than the screen lock.",
   "authRetry": "Try again",
   "authUseAppPin": "Use an app PIN",
   "authBioTitle": "Unlock with fingerprint?",
@@ -52,7 +52,7 @@
   "authPinNowUsed": "From now on, open NexVault with this PIN. Set a screen lock again to use fingerprint or your device passcode.",
   "authPinsDontMatch": "The PINs don't match",
   "authLocked": "NexVault is locked",
-  "authDeviceUnlockHint": "Unlock with fingerprint / Face ID or your device passcode",
+  "authDeviceUnlockHint": "Unlock with {bio} or your device passcode",
   "authRetryIn": "{seconds, plural, =1{Try again in 1 second} other{Try again in {seconds} seconds}}",
   "@authRetryIn": {
     "placeholders": {
@@ -199,7 +199,7 @@
   "errCodeDamaged": "The code is damaged or incomplete. Scan it again.",
   "errNotYourWorkspace": "This code is not for any workspace on this device.",
   "errNotNexVaultCode": "This is not a NexVault code.",
-  "errHostUnreachable": "Could not reach the other device. Both need the same Wi-Fi, or the device that opened sync needs IPv6.",
+  "errHostUnreachable": "Could not reach the other device. Use the same Wi-Fi, or have the device that opened sync switch to 4G/5G (most carriers support IPv6).",
   "errRefused": "The other device refused the connection. This device may no longer be a member.",
   "errNeedMember": "Add at least one other verified member.",
   "errNotConfirmed": "This person has not picked the right code yet.",
@@ -260,7 +260,7 @@
   "keysReprotectWithLock": "Protect NexVault with your screen lock again",
   "keysUnlockTitle": "Unlock NexVault",
   "keysDevInvalidated": "The screen lock on this device was turned off or changed. Open with your recovery code.",
-  "keysBioInvalidated": "The fingerprints or Face ID on this device changed. Open with your PIN, then turn it on again.",
+  "keysBioInvalidated": "The biometrics ({bio}) on this device changed. Open with your PIN, then turn it on again.",
   "keysUnlockFirst": "Unlock the app first.",
   "keysNotEnrolled": "Biometric unlock is not turned on.",
   "keysSealFailed": "Could not store the key. This device needs a passcode.",
@@ -371,7 +371,7 @@
   "scanCameraDenied": "NexVault isn't allowed to use the camera. Allow it to scan, or use \"Pick code image\" / \"Paste code\".",
   "scanCameraFailed": "Couldn't open the camera. Use \"Pick code image\" or \"Paste code\".",
   "scanAllowCamera": "Allow camera",
-  "scanPickImage": "Pick code image",
+  "scanPickImage": "From image",
   "secretActionCreated": "created",
   "secretActionEdited": "edited",
   "secretActionViewed": "viewed",
@@ -544,13 +544,13 @@
   "secretWhatContent": "the content",
   "secretKindP12": ".p12 certificate",
   "secretKindEnv": ".env file",
-  "secretKindText": "Password / text",
+  "secretKindText": "Secure note",
   "secretNameRequired": "Give the secret a name",
   "secretFileOrPaste": "Choose a file or paste the content",
   "secretAddTitle": "Add secret",
   "secretEditTitle": "Edit secret",
   "secretKind": "Type",
-  "secretNameHint": "Name, e.g. APNs production",
+  "secretNameHint": "Name, e.g. Production server key",
   "secretNoFolder": "Not in a folder",
   "secretChange": "Change",
   "secretChooseFile": "Choose file",
@@ -564,7 +564,7 @@
   },
   "secretChangeFile": "Change file",
   "secretOrPaste": "Or paste the content",
-  "secretTextHint": "Password or secret note",
+  "secretTextHint": "Anything to keep private: backup codes, account numbers, notes…",
   "secretEncryptedNote": "The secret is encrypted on this device. Other members receive it at the next sync.",
   "secretSaving": "Saving…",
   "secretSave": "Save secret",
@@ -601,12 +601,12 @@
   "settingsDeviceId": "Device ID ",
   "settingsUnlockSection": "Unlock",
   "settingsScreenLock": "Phone screen lock",
-  "settingsScreenLockSub": "Opens with fingerprint / Face ID or the device passcode",
+  "settingsScreenLockSub": "Opens with {bio} or the device passcode",
   "settingsNewRecovery": "Create a new recovery code",
   "settingsNewRecoverySub": "The old code will stop working",
   "settingsChangePin": "Change PIN",
   "settingsToDevice": "Switch to the screen lock",
-  "settingsToDeviceSub": "Use fingerprint / Face ID or the device passcode instead of the app PIN",
+  "settingsToDeviceSub": "Use {bio} or the device passcode instead of the app PIN",
   "settingsBio": "Unlock with fingerprint",
   "settingsBioSub": "The data key is sealed in the phone's security chip",
   "settingsCopy": "Allow copying secrets",
@@ -681,10 +681,10 @@
       }
     }
   },
-  "syncHostIntro": "Members open NexVault and scan this code. If someone is far away, send them a picture of the code by chat: only devices in the workspace can decrypt it.",
+  "syncHostIntro": "Members open NexVault and scan this code. For someone far away, send a picture of it by chat (only workspace devices can decrypt it) and keep this device on 4G/5G.",
   "syncExpiresIn": "Code expires in ",
   "syncExpired": "Code expired, connections are closed",
-  "syncConnectVia": "Connects over the same Wi-Fi network or IPv6",
+  "syncConnectVia": "Direct over Wi-Fi or 4G/5G, with no server in between",
   "syncShareText": "NexVault sync code ({name}), expires in {left}",
   "@syncShareText": {
     "placeholders": {
@@ -696,7 +696,7 @@
       }
     }
   },
-  "syncShareButton": "Send the code picture to someone far away",
+  "syncShareButton": "Send to someone far away",
   "syncNewCode": "New code",
   "syncEnd": "Finish",
   "syncJoinConnecting": "Connecting to {host}…",
@@ -707,7 +707,7 @@
       }
     }
   },
-  "syncJoinConnectingHint": "Trying the same Wi-Fi network first, then IPv6.",
+  "syncJoinConnectingHint": "Trying the same Wi-Fi first, then a direct connection over 4G/5G.",
   "syncJoinSyncing": "Syncing with {host}",
   "@syncJoinSyncing": {
     "placeholders": {
@@ -849,7 +849,7 @@
     }
   },
   "workspaceFolderOptions": "Folder options",
-  "workspaceEmpty": "No secrets yet. Add a .p8 key, .p12 cert, keystore, SSH key or .env file, group them into folders, then open sync to share.",
+  "workspaceEmpty": "No secrets yet. Add logins, API keys, Wi-Fi passwords, notes or files such as .env and SSH keys, group them into folders, then open sync to share.",
   "workspaceFolderEmpty": "Empty folder.",
   "workspaceAddSecret": "Add secret",
   "workspaceOpenSync": "Open sync",
@@ -955,5 +955,107 @@
   },
   "workspaceApprove": "Agree",
   "workspacePickFolder": "Choose folder",
-  "workspaceNoFolder": "Not in any folder"
+  "workspaceNoFolder": "Not in any folder",
+  "syncPathNoServer": "No server in between",
+  "syncPathNearby": "Same Wi-Fi",
+  "syncPathInternet": "Direct over 4G/5G (IPv6)",
+  "syncPathEither": "Same Wi-Fi, or direct over 4G/5G",
+  "syncPathThisDevice": "This device",
+  "syncPathOther": "Other device",
+  "syncHowTitle": "How sync works",
+  "syncHowBody": "The two devices connect to each other directly: over the same Wi-Fi when you are close, or over 4G/5G using IPv6 when you are apart.\n\nNo NexVault or third-party server is involved and nothing is stored anywhere else. Everything is end-to-end encrypted, so the Wi-Fi router or your carrier only carries packets it cannot read.\n\nThe code works for 5 minutes and only for members of this workspace.",
+  "syncHowButton": "How it works",
+  "@authNoLockBody": {
+    "placeholders": {
+      "bio": {
+        "type": "String"
+      }
+    }
+  },
+  "@authDeviceUnlockHint": {
+    "placeholders": {
+      "bio": {
+        "type": "String"
+      }
+    }
+  },
+  "@keysBioInvalidated": {
+    "placeholders": {
+      "bio": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsScreenLockSub": {
+    "placeholders": {
+      "bio": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsToDeviceSub": {
+    "placeholders": {
+      "bio": {
+        "type": "String"
+      }
+    }
+  },
+  "bioAndroid": "fingerprint",
+  "bioIos": "Face ID / Touch ID",
+  "ceremonyWaitingScan": "Waiting for members to scan…",
+  "secretKindLogin": "Login",
+  "secretKindApi": "API key",
+  "secretKindWifi": "Wi-Fi",
+  "secretKindFiles": "Files & keys",
+  "secretKindFile": "Any file",
+  "secretKindLoginLong": "Login",
+  "secretKindApiLong": "API key / token",
+  "secretKindWifiLong": "Wi-Fi password",
+  "secretKindFileLong": "File",
+  "secretFileType": "File type: picked automatically from the file, or choose",
+  "secretFieldWebsite": "Website or app",
+  "secretFieldUsername": "Username or email",
+  "secretFieldWifiName": "Network name",
+  "secretPassword": "Password",
+  "secretApiValue": "Key or token",
+  "secretGenerate": "Generate a strong password",
+  "secretShowValue": "Show",
+  "secretHideValue": "Hide",
+  "secretPasswordRequired": "Enter the password",
+  "secretKeyRequired": "Enter the key or token",
+  "secretNameHintLogin": "Name, e.g. Company Gmail",
+  "secretNameHintApi": "Name, e.g. Stripe production",
+  "secretNameHintWifi": "Name, e.g. Office Wi-Fi",
+  "secretNameHintNote": "Name, e.g. 2FA backup codes",
+  "secretWhatPassword": "the password",
+  "secretWhatApi": "the key",
+  "secretCopyPassword": "Copy password",
+  "secretWifiQr": "Show QR to join this Wi-Fi",
+  "secretWifiQrHint": "On the other phone, open the camera and scan to join. Closes by itself in 60 seconds.",
+  "secretWifiNoName": "Add the network name first (Edit)",
+  "hotspotOffer": "No shared Wi-Fi? Start a private Wi-Fi on this phone",
+  "hotspotOnTitle": "Private Wi-Fi on: {ssid}",
+  "@hotspotOnTitle": {
+    "placeholders": {
+      "ssid": {
+        "type": "String"
+      }
+    }
+  },
+  "hotspotOnHint": "The code includes it: the other phone joins by scanning. It has no internet and turns off when you leave this screen.",
+  "hotspotStop": "Turn off",
+  "hotspotDenied": "NexVault needs the Nearby devices permission to start a Wi-Fi. It does not use your location.",
+  "hotspotFailed": "Could not start a Wi-Fi on this phone. Turn off the phone's own hotspot and try again.",
+  "hotspotJoining": "Joining the other phone's Wi-Fi ({ssid})…",
+  "@hotspotJoining": {
+    "placeholders": {
+      "ssid": {
+        "type": "String"
+      }
+    }
+  },
+  "hotspotJoinFailed": "Could not join the other phone's Wi-Fi. Trying the current network instead.",
+  "hotspotPermTitle": "Allow Nearby devices",
+  "hotspotPermBody": "Android asks for the Nearby devices permission before an app can start a Wi-Fi. Its wording mentions the position of devices, but NexVault only uses it to start this private Wi-Fi and never sees your location.",
+  "hotspotPermContinue": "Continue"
 }

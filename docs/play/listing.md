@@ -20,7 +20,7 @@ Chia sẻ mật khẩu, chứng chỉ, khoá trong nhóm. Không máy chủ, mã
 
 **Mô tả đầy đủ:**
 ```
-NexVault giúp nhóm của bạn giữ và chia sẻ secret (mật khẩu, chứng chỉ .p12, khoá Apple .p8, keystore, SSH key, file .env) mà không cần máy chủ hay tài khoản.
+NexVault giúp nhóm của bạn giữ và chia sẻ secret (tài khoản đăng nhập, API key, mật khẩu Wi-Fi, ghi chú bảo mật, và file như .env, SSH key, chứng chỉ .p12, keystore) mà không cần máy chủ hay tài khoản.
 
 KHÔNG MÁY CHỦ
 • Dữ liệu chỉ nằm trên máy của các thành viên, trong file được mã hoá.
@@ -61,7 +61,7 @@ Share passwords, certificates and keys in your team. No server, end-to-end.
 
 **Full description:**
 ```
-NexVault lets your team keep and share secrets (passwords, .p12 certificates, Apple .p8 keys, keystores, SSH keys, .env files) with no server and no accounts.
+NexVault lets your team keep and share secrets (logins, API keys, Wi-Fi passwords, secure notes, and files such as .env, SSH keys, .p12 certificates and keystores) with no server and no accounts.
 
 NO SERVER
 • Data lives only on members' devices, in an encrypted file.
@@ -126,6 +126,8 @@ Các loại dữ liệu cần khai:
 | App info and performance → **Diagnostics** | Yes | No | No | Required | Analytics |
 | App info and performance → **Other app performance data** | Yes | No | No | Required | Analytics |
 | Device or other IDs | Yes | No | No | Required | Analytics |
+
+Quyền **Thiết bị ở gần** (`NEARBY_WIFI_DEVICES`, khai `neverForLocation`) chỉ dùng để phát Wi‑Fi riêng khi ghép/sync; không thu thập gì, không suy ra vị trí.
 
 Không khai: vị trí, thông tin cá nhân, tin nhắn, ảnh, file, danh bạ, tài chính, sức khoẻ, lịch sử duyệt web. Ảnh camera được xử lý trên máy, không gửi đi.
 

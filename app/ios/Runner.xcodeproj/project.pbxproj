@@ -410,6 +410,7 @@
 				);
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				DEVELOPMENT_TEAM = YRQF9285H5;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				PRODUCT_BUNDLE_IDENTIFIER = vn.dsai.nexvault;
 				STRIP_STYLE = "non-global";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -604,6 +605,7 @@
 				);
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				DEVELOPMENT_TEAM = YRQF9285H5;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				PRODUCT_BUNDLE_IDENTIFIER = vn.dsai.nexvault;
 				STRIP_STYLE = "non-global";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -639,6 +641,7 @@
 				);
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				DEVELOPMENT_TEAM = YRQF9285H5;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				PRODUCT_BUNDLE_IDENTIFIER = vn.dsai.nexvault;
 				STRIP_STYLE = "non-global";
 				PRODUCT_NAME = "$(TARGET_NAME)";

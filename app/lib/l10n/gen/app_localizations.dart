@@ -166,8 +166,8 @@ abstract class S {
   /// No description provided for @authNoLockBody.
   ///
   /// In en, this message translates to:
-  /// **'NexVault protects your data with the device\'s screen lock (fingerprint / Face ID or device passcode). Set a screen lock in the device Settings, then tap Try again.\n\nIf you\'d rather not, you can use a separate 6-digit app PIN, but it is less secure than the screen lock.'**
-  String get authNoLockBody;
+  /// **'NexVault protects your data with the device\'s screen lock ({bio} or device passcode). Set a screen lock in the device Settings, then tap Try again.\n\nIf you\'d rather not, you can use a separate 6-digit app PIN, but it is less secure than the screen lock.'**
+  String authNoLockBody(String bio);
 
   /// No description provided for @authRetry.
   ///
@@ -286,8 +286,8 @@ abstract class S {
   /// No description provided for @authDeviceUnlockHint.
   ///
   /// In en, this message translates to:
-  /// **'Unlock with fingerprint / Face ID or your device passcode'**
-  String get authDeviceUnlockHint;
+  /// **'Unlock with {bio} or your device passcode'**
+  String authDeviceUnlockHint(String bio);
 
   /// No description provided for @authRetryIn.
   ///
@@ -580,7 +580,7 @@ abstract class S {
   /// No description provided for @errHostUnreachable.
   ///
   /// In en, this message translates to:
-  /// **'Could not reach the other device. Both need the same Wi-Fi, or the device that opened sync needs IPv6.'**
+  /// **'Could not reach the other device. Use the same Wi-Fi, or have the device that opened sync switch to 4G/5G (most carriers support IPv6).'**
   String get errHostUnreachable;
 
   /// No description provided for @errRefused.
@@ -778,8 +778,8 @@ abstract class S {
   /// No description provided for @keysBioInvalidated.
   ///
   /// In en, this message translates to:
-  /// **'The fingerprints or Face ID on this device changed. Open with your PIN, then turn it on again.'**
-  String get keysBioInvalidated;
+  /// **'The biometrics ({bio}) on this device changed. Open with your PIN, then turn it on again.'**
+  String keysBioInvalidated(String bio);
 
   /// No description provided for @keysUnlockFirst.
   ///
@@ -1102,7 +1102,7 @@ abstract class S {
   /// No description provided for @scanPickImage.
   ///
   /// In en, this message translates to:
-  /// **'Pick code image'**
+  /// **'From image'**
   String get scanPickImage;
 
   /// No description provided for @secretActionCreated.
@@ -1456,7 +1456,7 @@ abstract class S {
   /// No description provided for @secretKindText.
   ///
   /// In en, this message translates to:
-  /// **'Password / text'**
+  /// **'Secure note'**
   String get secretKindText;
 
   /// No description provided for @secretNameRequired.
@@ -1492,7 +1492,7 @@ abstract class S {
   /// No description provided for @secretNameHint.
   ///
   /// In en, this message translates to:
-  /// **'Name, e.g. APNs production'**
+  /// **'Name, e.g. Production server key'**
   String get secretNameHint;
 
   /// No description provided for @secretNoFolder.
@@ -1534,7 +1534,7 @@ abstract class S {
   /// No description provided for @secretTextHint.
   ///
   /// In en, this message translates to:
-  /// **'Password or secret note'**
+  /// **'Anything to keep private: backup codes, account numbers, notes…'**
   String get secretTextHint;
 
   /// No description provided for @secretEncryptedNote.
@@ -1756,8 +1756,8 @@ abstract class S {
   /// No description provided for @settingsScreenLockSub.
   ///
   /// In en, this message translates to:
-  /// **'Opens with fingerprint / Face ID or the device passcode'**
-  String get settingsScreenLockSub;
+  /// **'Opens with {bio} or the device passcode'**
+  String settingsScreenLockSub(String bio);
 
   /// No description provided for @settingsNewRecovery.
   ///
@@ -1786,8 +1786,8 @@ abstract class S {
   /// No description provided for @settingsToDeviceSub.
   ///
   /// In en, this message translates to:
-  /// **'Use fingerprint / Face ID or the device passcode instead of the app PIN'**
-  String get settingsToDeviceSub;
+  /// **'Use {bio} or the device passcode instead of the app PIN'**
+  String settingsToDeviceSub(String bio);
 
   /// No description provided for @settingsBio.
   ///
@@ -1924,7 +1924,7 @@ abstract class S {
   /// No description provided for @syncHostIntro.
   ///
   /// In en, this message translates to:
-  /// **'Members open NexVault and scan this code. If someone is far away, send them a picture of the code by chat: only devices in the workspace can decrypt it.'**
+  /// **'Members open NexVault and scan this code. For someone far away, send a picture of it by chat (only workspace devices can decrypt it) and keep this device on 4G/5G.'**
   String get syncHostIntro;
 
   /// No description provided for @syncExpiresIn.
@@ -1942,7 +1942,7 @@ abstract class S {
   /// No description provided for @syncConnectVia.
   ///
   /// In en, this message translates to:
-  /// **'Connects over the same Wi-Fi network or IPv6'**
+  /// **'Direct over Wi-Fi or 4G/5G, with no server in between'**
   String get syncConnectVia;
 
   /// No description provided for @syncShareText.
@@ -1954,7 +1954,7 @@ abstract class S {
   /// No description provided for @syncShareButton.
   ///
   /// In en, this message translates to:
-  /// **'Send the code picture to someone far away'**
+  /// **'Send to someone far away'**
   String get syncShareButton;
 
   /// No description provided for @syncNewCode.
@@ -1978,7 +1978,7 @@ abstract class S {
   /// No description provided for @syncJoinConnectingHint.
   ///
   /// In en, this message translates to:
-  /// **'Trying the same Wi-Fi network first, then IPv6.'**
+  /// **'Trying the same Wi-Fi first, then a direct connection over 4G/5G.'**
   String get syncJoinConnectingHint;
 
   /// No description provided for @syncJoinSyncing.
@@ -2230,7 +2230,7 @@ abstract class S {
   /// No description provided for @workspaceEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No secrets yet. Add a .p8 key, .p12 cert, keystore, SSH key or .env file, group them into folders, then open sync to share.'**
+  /// **'No secrets yet. Add logins, API keys, Wi-Fi passwords, notes or files such as .env and SSH keys, group them into folders, then open sync to share.'**
   String get workspaceEmpty;
 
   /// No description provided for @workspaceFolderEmpty.
@@ -2345,6 +2345,324 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Not in any folder'**
   String get workspaceNoFolder;
+
+  /// No description provided for @syncPathNoServer.
+  ///
+  /// In en, this message translates to:
+  /// **'No server in between'**
+  String get syncPathNoServer;
+
+  /// No description provided for @syncPathNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Same Wi-Fi'**
+  String get syncPathNearby;
+
+  /// No description provided for @syncPathInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct over 4G/5G (IPv6)'**
+  String get syncPathInternet;
+
+  /// No description provided for @syncPathEither.
+  ///
+  /// In en, this message translates to:
+  /// **'Same Wi-Fi, or direct over 4G/5G'**
+  String get syncPathEither;
+
+  /// No description provided for @syncPathThisDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'This device'**
+  String get syncPathThisDevice;
+
+  /// No description provided for @syncPathOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other device'**
+  String get syncPathOther;
+
+  /// No description provided for @syncHowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How sync works'**
+  String get syncHowTitle;
+
+  /// No description provided for @syncHowBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The two devices connect to each other directly: over the same Wi-Fi when you are close, or over 4G/5G using IPv6 when you are apart.\n\nNo NexVault or third-party server is involved and nothing is stored anywhere else. Everything is end-to-end encrypted, so the Wi-Fi router or your carrier only carries packets it cannot read.\n\nThe code works for 5 minutes and only for members of this workspace.'**
+  String get syncHowBody;
+
+  /// No description provided for @syncHowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'How it works'**
+  String get syncHowButton;
+
+  /// No description provided for @bioAndroid.
+  ///
+  /// In en, this message translates to:
+  /// **'fingerprint'**
+  String get bioAndroid;
+
+  /// No description provided for @bioIos.
+  ///
+  /// In en, this message translates to:
+  /// **'Face ID / Touch ID'**
+  String get bioIos;
+
+  /// No description provided for @ceremonyWaitingScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for members to scan…'**
+  String get ceremonyWaitingScan;
+
+  /// No description provided for @secretKindLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get secretKindLogin;
+
+  /// No description provided for @secretKindApi.
+  ///
+  /// In en, this message translates to:
+  /// **'API key'**
+  String get secretKindApi;
+
+  /// No description provided for @secretKindWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi'**
+  String get secretKindWifi;
+
+  /// No description provided for @secretKindFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Files & keys'**
+  String get secretKindFiles;
+
+  /// No description provided for @secretKindFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Any file'**
+  String get secretKindFile;
+
+  /// No description provided for @secretKindLoginLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get secretKindLoginLong;
+
+  /// No description provided for @secretKindApiLong.
+  ///
+  /// In en, this message translates to:
+  /// **'API key / token'**
+  String get secretKindApiLong;
+
+  /// No description provided for @secretKindWifiLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi password'**
+  String get secretKindWifiLong;
+
+  /// No description provided for @secretKindFileLong.
+  ///
+  /// In en, this message translates to:
+  /// **'File'**
+  String get secretKindFileLong;
+
+  /// No description provided for @secretFileType.
+  ///
+  /// In en, this message translates to:
+  /// **'File type: picked automatically from the file, or choose'**
+  String get secretFileType;
+
+  /// No description provided for @secretFieldWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website or app'**
+  String get secretFieldWebsite;
+
+  /// No description provided for @secretFieldUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Username or email'**
+  String get secretFieldUsername;
+
+  /// No description provided for @secretFieldWifiName.
+  ///
+  /// In en, this message translates to:
+  /// **'Network name'**
+  String get secretFieldWifiName;
+
+  /// No description provided for @secretPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get secretPassword;
+
+  /// No description provided for @secretApiValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Key or token'**
+  String get secretApiValue;
+
+  /// No description provided for @secretGenerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate a strong password'**
+  String get secretGenerate;
+
+  /// No description provided for @secretShowValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get secretShowValue;
+
+  /// No description provided for @secretHideValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get secretHideValue;
+
+  /// No description provided for @secretPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the password'**
+  String get secretPasswordRequired;
+
+  /// No description provided for @secretKeyRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the key or token'**
+  String get secretKeyRequired;
+
+  /// No description provided for @secretNameHintLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, e.g. Company Gmail'**
+  String get secretNameHintLogin;
+
+  /// No description provided for @secretNameHintApi.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, e.g. Stripe production'**
+  String get secretNameHintApi;
+
+  /// No description provided for @secretNameHintWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, e.g. Office Wi-Fi'**
+  String get secretNameHintWifi;
+
+  /// No description provided for @secretNameHintNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, e.g. 2FA backup codes'**
+  String get secretNameHintNote;
+
+  /// No description provided for @secretWhatPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'the password'**
+  String get secretWhatPassword;
+
+  /// No description provided for @secretWhatApi.
+  ///
+  /// In en, this message translates to:
+  /// **'the key'**
+  String get secretWhatApi;
+
+  /// No description provided for @secretCopyPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy password'**
+  String get secretCopyPassword;
+
+  /// No description provided for @secretWifiQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Show QR to join this Wi-Fi'**
+  String get secretWifiQr;
+
+  /// No description provided for @secretWifiQrHint.
+  ///
+  /// In en, this message translates to:
+  /// **'On the other phone, open the camera and scan to join. Closes by itself in 60 seconds.'**
+  String get secretWifiQrHint;
+
+  /// No description provided for @secretWifiNoName.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the network name first (Edit)'**
+  String get secretWifiNoName;
+
+  /// No description provided for @hotspotOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'No shared Wi-Fi? Start a private Wi-Fi on this phone'**
+  String get hotspotOffer;
+
+  /// No description provided for @hotspotOnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Private Wi-Fi on: {ssid}'**
+  String hotspotOnTitle(String ssid);
+
+  /// No description provided for @hotspotOnHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The code includes it: the other phone joins by scanning. It has no internet and turns off when you leave this screen.'**
+  String get hotspotOnHint;
+
+  /// No description provided for @hotspotStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get hotspotStop;
+
+  /// No description provided for @hotspotDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'NexVault needs the Nearby devices permission to start a Wi-Fi. It does not use your location.'**
+  String get hotspotDenied;
+
+  /// No description provided for @hotspotFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start a Wi-Fi on this phone. Turn off the phone\'s own hotspot and try again.'**
+  String get hotspotFailed;
+
+  /// No description provided for @hotspotJoining.
+  ///
+  /// In en, this message translates to:
+  /// **'Joining the other phone\'s Wi-Fi ({ssid})…'**
+  String hotspotJoining(String ssid);
+
+  /// No description provided for @hotspotJoinFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not join the other phone\'s Wi-Fi. Trying the current network instead.'**
+  String get hotspotJoinFailed;
+
+  /// No description provided for @hotspotPermTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow Nearby devices'**
+  String get hotspotPermTitle;
+
+  /// No description provided for @hotspotPermBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Android asks for the Nearby devices permission before an app can start a Wi-Fi. Its wording mentions the position of devices, but NexVault only uses it to start this private Wi-Fi and never sees your location.'**
+  String get hotspotPermBody;
+
+  /// No description provided for @hotspotPermContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get hotspotPermContinue;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

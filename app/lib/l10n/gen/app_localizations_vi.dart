@@ -45,8 +45,9 @@ class SVi extends S {
   String get authNoLockTitle => 'Máy chưa có khoá màn hình';
 
   @override
-  String get authNoLockBody =>
-      'NexVault bảo vệ dữ liệu bằng khoá màn hình của máy (vân tay / Face ID hoặc mã mở máy). Hãy đặt khoá màn hình trong Cài đặt của máy rồi bấm Thử lại.\n\nNếu không muốn, bạn có thể dùng PIN 6 số riêng của app, nhưng PIN này kém an toàn hơn khoá màn hình.';
+  String authNoLockBody(String bio) {
+    return 'NexVault bảo vệ dữ liệu bằng khoá màn hình của máy ($bio hoặc mã mở máy). Hãy đặt khoá màn hình trong Cài đặt của máy rồi bấm Thử lại.\n\nNếu không muốn, bạn có thể dùng PIN 6 số riêng của app, nhưng PIN này kém an toàn hơn khoá màn hình.';
+  }
 
   @override
   String get authRetry => 'Thử lại';
@@ -126,7 +127,9 @@ class SVi extends S {
   String get authLocked => 'NexVault đã khoá';
 
   @override
-  String get authDeviceUnlockHint => 'Mở bằng vân tay / Face ID hoặc mã mở máy';
+  String authDeviceUnlockHint(String bio) {
+    return 'Mở bằng $bio hoặc mã mở máy';
+  }
 
   @override
   String authRetryIn(int seconds) {
@@ -325,7 +328,7 @@ class SVi extends S {
 
   @override
   String get errHostUnreachable =>
-      'Không kết nối được tới máy kia. Hai máy cần cùng Wi-Fi, hoặc máy mở sync phải có IPv6.';
+      'Không kết nối được tới máy kia. Hãy dùng cùng Wi-Fi, hoặc để máy mở sync chuyển sang 4G/5G (đa số nhà mạng có IPv6).';
 
   @override
   String get errRefused =>
@@ -456,8 +459,9 @@ class SVi extends S {
       'Khoá màn hình của máy đã bị tắt hoặc thay đổi. Hãy mở bằng mã khôi phục.';
 
   @override
-  String get keysBioInvalidated =>
-      'Vân tay hoặc Face ID trên máy đã thay đổi, hãy mở bằng PIN rồi bật lại';
+  String keysBioInvalidated(String bio) {
+    return 'Dữ liệu sinh trắc ($bio) trên máy đã thay đổi, hãy mở bằng PIN rồi bật lại';
+  }
 
   @override
   String get keysUnlockFirst => 'Mở khoá app trước khi bật vân tay';
@@ -874,7 +878,7 @@ class SVi extends S {
   String get secretKindEnv => 'File .env';
 
   @override
-  String get secretKindText => 'Mật khẩu / văn bản';
+  String get secretKindText => 'Ghi chú bảo mật';
 
   @override
   String get secretNameRequired => 'Đặt tên cho secret';
@@ -892,7 +896,7 @@ class SVi extends S {
   String get secretKind => 'Loại';
 
   @override
-  String get secretNameHint => 'Tên, ví dụ APNs production';
+  String get secretNameHint => 'Tên, ví dụ Key máy chủ production';
 
   @override
   String get secretNoFolder => 'Không thuộc thư mục nào';
@@ -915,7 +919,8 @@ class SVi extends S {
   String get secretOrPaste => 'Hoặc dán nội dung';
 
   @override
-  String get secretTextHint => 'Mật khẩu hoặc ghi chú bí mật';
+  String get secretTextHint =>
+      'Điều cần giữ kín: mã dự phòng, số tài khoản, ghi chú…';
 
   @override
   String get secretEncryptedNote =>
@@ -1030,8 +1035,9 @@ class SVi extends S {
   String get settingsScreenLock => 'Khoá màn hình của máy';
 
   @override
-  String get settingsScreenLockSub =>
-      'Mở bằng vân tay / Face ID hoặc mã mở máy';
+  String settingsScreenLockSub(String bio) {
+    return 'Mở bằng $bio hoặc mã mở máy';
+  }
 
   @override
   String get settingsNewRecovery => 'Tạo mã khôi phục mới';
@@ -1046,8 +1052,9 @@ class SVi extends S {
   String get settingsToDevice => 'Chuyển sang mở bằng khoá màn hình';
 
   @override
-  String get settingsToDeviceSub =>
-      'Dùng vân tay / Face ID hoặc mã mở máy thay cho PIN của app';
+  String settingsToDeviceSub(String bio) {
+    return 'Dùng $bio hoặc mã mở máy thay cho PIN của app';
+  }
 
   @override
   String get settingsBio => 'Mở khoá bằng vân tay';
@@ -1134,7 +1141,7 @@ class SVi extends S {
 
   @override
   String get syncHostIntro =>
-      'Thành viên mở NexVault và quét mã này. Ở xa thì gửi ảnh mã qua chat: chỉ thiết bị trong workspace mới giải mã được.';
+      'Thành viên mở NexVault và quét mã này. Người ở xa: gửi ảnh mã qua chat (chỉ thiết bị trong workspace giải mã được) và để máy này dùng 4G/5G.';
 
   @override
   String get syncExpiresIn => 'Mã hết hạn sau ';
@@ -1143,7 +1150,8 @@ class SVi extends S {
   String get syncExpired => 'Mã đã hết hạn, cổng kết nối đã đóng';
 
   @override
-  String get syncConnectVia => 'Kết nối qua Wi-Fi cùng mạng hoặc IPv6';
+  String get syncConnectVia =>
+      'Kết nối thẳng qua Wi-Fi hoặc 4G/5G, không qua máy chủ trung gian';
 
   @override
   String syncShareText(String name, String left) {
@@ -1166,7 +1174,7 @@ class SVi extends S {
 
   @override
   String get syncJoinConnectingHint =>
-      'Thử Wi-Fi cùng mạng trước, rồi tới IPv6.';
+      'Thử cùng Wi-Fi trước, rồi kết nối thẳng qua 4G/5G.';
 
   @override
   String syncJoinSyncing(String host) {
@@ -1339,7 +1347,7 @@ class SVi extends S {
 
   @override
   String get workspaceEmpty =>
-      'Chưa có secret nào. Thêm key .p8, cert .p12, keystore, SSH key hoặc file .env, nhóm vào thư mục, rồi mở sync để chia sẻ.';
+      'Chưa có secret nào. Thêm tài khoản, API key, mật khẩu Wi-Fi, ghi chú hay file như .env, SSH key, nhóm vào thư mục, rồi mở sync để chia sẻ.';
 
   @override
   String get workspaceFolderEmpty => 'Thư mục trống.';
@@ -1424,4 +1432,176 @@ class SVi extends S {
 
   @override
   String get workspaceNoFolder => 'Không thuộc thư mục nào';
+
+  @override
+  String get syncPathNoServer => 'Không qua máy chủ trung gian';
+
+  @override
+  String get syncPathNearby => 'Cùng mạng Wi-Fi';
+
+  @override
+  String get syncPathInternet => 'Kết nối thẳng qua 4G/5G (IPv6)';
+
+  @override
+  String get syncPathEither => 'Cùng Wi-Fi, hoặc thẳng qua 4G/5G';
+
+  @override
+  String get syncPathThisDevice => 'Máy này';
+
+  @override
+  String get syncPathOther => 'Máy kia';
+
+  @override
+  String get syncHowTitle => 'Sync hoạt động thế nào';
+
+  @override
+  String get syncHowBody =>
+      'Hai máy kết nối thẳng với nhau: qua cùng Wi-Fi khi ở gần, hoặc qua 4G/5G bằng IPv6 khi ở xa.\n\nKhông có máy chủ nào của NexVault hay bên thứ ba, và dữ liệu không được lưu ở đâu khác. Mọi thứ được mã hoá đầu-cuối, nên router Wi-Fi hay nhà mạng chỉ chuyển những gói tin họ không đọc được.\n\nMã chỉ dùng được trong 5 phút và chỉ với thành viên của workspace này.';
+
+  @override
+  String get syncHowButton => 'Cách hoạt động';
+
+  @override
+  String get bioAndroid => 'vân tay';
+
+  @override
+  String get bioIos => 'Face ID / Touch ID';
+
+  @override
+  String get ceremonyWaitingScan => 'Đang chờ thành viên quét mã…';
+
+  @override
+  String get secretKindLogin => 'Tài khoản';
+
+  @override
+  String get secretKindApi => 'API key';
+
+  @override
+  String get secretKindWifi => 'Wi-Fi';
+
+  @override
+  String get secretKindFiles => 'File & khoá';
+
+  @override
+  String get secretKindFile => 'Bất kỳ file';
+
+  @override
+  String get secretKindLoginLong => 'Tài khoản đăng nhập';
+
+  @override
+  String get secretKindApiLong => 'API key / token';
+
+  @override
+  String get secretKindWifiLong => 'Mật khẩu Wi-Fi';
+
+  @override
+  String get secretKindFileLong => 'File';
+
+  @override
+  String get secretFileType =>
+      'Loại file: tự nhận theo file bạn chọn, hoặc chọn tay';
+
+  @override
+  String get secretFieldWebsite => 'Trang web / ứng dụng';
+
+  @override
+  String get secretFieldUsername => 'Tên đăng nhập / email';
+
+  @override
+  String get secretFieldWifiName => 'Tên mạng Wi-Fi';
+
+  @override
+  String get secretPassword => 'Mật khẩu';
+
+  @override
+  String get secretApiValue => 'Key hoặc token';
+
+  @override
+  String get secretGenerate => 'Tạo mật khẩu mạnh';
+
+  @override
+  String get secretShowValue => 'Hiện';
+
+  @override
+  String get secretHideValue => 'Ẩn';
+
+  @override
+  String get secretPasswordRequired => 'Nhập mật khẩu';
+
+  @override
+  String get secretKeyRequired => 'Nhập key hoặc token';
+
+  @override
+  String get secretNameHintLogin => 'Tên, ví dụ Gmail công ty';
+
+  @override
+  String get secretNameHintApi => 'Tên, ví dụ Stripe production';
+
+  @override
+  String get secretNameHintWifi => 'Tên, ví dụ Wi-Fi văn phòng';
+
+  @override
+  String get secretNameHintNote => 'Tên, ví dụ Mã dự phòng 2FA';
+
+  @override
+  String get secretWhatPassword => 'mật khẩu';
+
+  @override
+  String get secretWhatApi => 'key';
+
+  @override
+  String get secretCopyPassword => 'Sao chép mật khẩu';
+
+  @override
+  String get secretWifiQr => 'Hiện QR để vào Wi-Fi này';
+
+  @override
+  String get secretWifiQrHint =>
+      'Trên máy kia, mở camera và quét để kết nối. Tự đóng sau 60 giây.';
+
+  @override
+  String get secretWifiNoName => 'Hãy thêm tên mạng Wi-Fi trước (Sửa)';
+
+  @override
+  String get hotspotOffer =>
+      'Không có Wi-Fi chung? Phát Wi-Fi riêng từ máy này';
+
+  @override
+  String hotspotOnTitle(String ssid) {
+    return 'Đang phát Wi-Fi riêng: $ssid';
+  }
+
+  @override
+  String get hotspotOnHint =>
+      'Mã QR đã kèm Wi-Fi này: máy kia quét là tự vào. Wi-Fi này không có internet và tự tắt khi bạn rời màn hình.';
+
+  @override
+  String get hotspotStop => 'Tắt';
+
+  @override
+  String get hotspotDenied =>
+      'NexVault cần quyền Thiết bị ở gần để phát Wi-Fi. App không dùng vị trí của bạn.';
+
+  @override
+  String get hotspotFailed =>
+      'Không phát được Wi-Fi. Hãy tắt Điểm phát sóng của máy rồi thử lại.';
+
+  @override
+  String hotspotJoining(String ssid) {
+    return 'Đang vào Wi-Fi của máy kia ($ssid)…';
+  }
+
+  @override
+  String get hotspotJoinFailed =>
+      'Không vào được Wi-Fi của máy kia, thử qua mạng hiện tại.';
+
+  @override
+  String get hotspotPermTitle => 'Cho phép Thiết bị ở gần';
+
+  @override
+  String get hotspotPermBody =>
+      'Android cần quyền Thiết bị ở gần thì app mới phát được Wi-Fi. Câu hỏi của Android có nhắc tới vị trí thiết bị, nhưng NexVault chỉ dùng quyền này để phát Wi-Fi riêng và không biết vị trí của bạn.';
+
+  @override
+  String get hotspotPermContinue => 'Tiếp tục';
 }

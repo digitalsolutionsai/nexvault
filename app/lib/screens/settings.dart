@@ -297,7 +297,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.phonelink_lock_outlined),
               title: Text(tr.settingsScreenLock),
-              subtitle: Text(tr.settingsScreenLockSub),
+              subtitle: Text(tr.settingsScreenLockSub(bioName)),
             ),
             ListTile(
               leading: const Icon(Icons.key_outlined),
@@ -311,7 +311,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ListTile(
                 leading: const Icon(Icons.phonelink_lock_outlined),
                 title: Text(tr.settingsToDevice),
-                subtitle: Text(tr.settingsToDeviceSub),
+                subtitle: Text(tr.settingsToDeviceSub(bioName)),
                 onTap: _toDevice,
               ),
           ],

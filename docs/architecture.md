@@ -127,9 +127,17 @@ Framing: `u32 length | các frame noise ≤ 60 KB`, tổng tối đa 64 MB một
 5. Người tạo xác nhận "Đúng người" → khi đủ người, dựng `Genesis` → gửi cho từng người co‑sign → phát `Genesis` hoàn chỉnh.
 6. Mời vào workspace có sẵn dùng cùng nghi thức; bước 5 thay bằng `Propose{Add}` + gửi `Bootstrap{log, ticket_key}`.
 
+### Wi‑Fi riêng khi không có mạng chung
+Wi‑Fi quán cà phê hay Wi‑Fi khách thường chặn các máy nói chuyện với nhau. Khi đó máy mở sync/mời có thể **phát Wi‑Fi riêng**:
+- **Android 13+** (máy phát): `LocalOnlyHotspot` của Android. Không có internet, tên và mật khẩu ngẫu nhiên, tắt khi rời màn hình. Chỉ cần quyền `NEARBY_WIFI_DEVICES` với `neverForLocation`, không xin vị trí. Interface của hotspot được báo thêm cho core (`netIfaces`) để địa chỉ của nó vào mã.
+- QR mang thêm đuôi `#w=<base64url {"s":ssid,"p":pass,"t":security}>`. Core không thấy phần sau `#`. Ảnh mã gửi cho người ở xa không kèm đuôi này.
+- Máy quét: Android 10+ dùng `WifiNetworkSpecifier` (hệ thống hỏi người dùng), rồi `bindProcessToNetwork` để mọi socket, kể cả của core Rust, đi qua mạng đó, và nhả ra khi màn ghép/sync đóng. iOS dùng `NEHotspotConfiguration` (`joinOnce`, entitlement *Hotspot Configuration*).
+- iPhone không tự phát được (Apple không cho app bật hotspot): người dùng bật Điểm truy cập cá nhân như trước.
+- Hotspot chỉ là đường đi: phiên vẫn là Noise IKpsk2 với PSK trong mã, nên ai vào được Wi‑Fi đó cũng không đọc hay giả mạo được.
+
 ### Giới hạn hiện tại và kế hoạch
 - Dùng **TCP**: đủ cho LAN/hotspot và IPv6 khi host nhận được kết nối vào.
-- Chưa có: BLE GATT khi không có Wi‑Fi, QUIC/UDP hole punching hai chiều.
+- Chưa có: BLE GATT, QUIC/UDP hole punching hai chiều. NFC đã cân nhắc và bỏ: Android không còn NFC giữa hai máy, iPhone không đóng vai thẻ được.
 
 ## 5. Lưu trữ trên máy
 - `vault.bin` = `"NXV2" | nonce | XChaCha20‑Poly1305(master_key, CBOR{version, identity, logs, local})`.

@@ -245,7 +245,15 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
     if (s['conflict'] == true) return tr.workspaceConflict;
     if (s['file_name'] != null) return s['file_name'];
     final f = (s['fields'] as List).where((x) => !(x[0] as String).startsWith('*') && x[1] != '').toList();
-    if (f.isNotEmpty) return '${f.first[0]}: ${f.first[1]}';
+    String? val(String label) => f.where((x) => x[0] == label).map((x) => x[1] as String).firstOrNull;
+    // a login is recognised by who signs in, a Wi-Fi by its network name
+    final plain = switch (s['kind']) {
+      'login' => val('Tên đăng nhập') ?? val('Trang web'),
+      'wifi' => val('Tên Wi-Fi'),
+      _ => null,
+    };
+    if (plain != null) return plain;
+    if (f.isNotEmpty) return '${fieldLabel(f.first[0])}: ${f.first[1]}';
     return tr.workspaceVersionDate('${s['version']}', shortDate(s['ts']));
   }
 

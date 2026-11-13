@@ -238,7 +238,7 @@ class Keys {
   /// A native auth / Keychain / Keystore failure as a message in the app language. The OS
   /// message (already localized by the system) is kept for unexpected errors.
   static CoreError _platformError(PlatformException e, String kind) => CoreError(switch (e.code) {
-    'invalidated' => kind == 'dev' ? tr.keysDevInvalidated : tr.keysBioInvalidated,
+    'invalidated' => kind == 'dev' ? tr.keysDevInvalidated : tr.keysBioInvalidated(bioName),
     'locked' => tr.keysUnlockFirst,
     'not_enrolled' => tr.keysNotEnrolled,
     'seal_failed' => tr.keysSealFailed,
@@ -300,6 +300,42 @@ class Keys {
   static void onLink(void Function(String) f) {
     _native.setMethodCallHandler((call) async {
       if (call.method == 'link') f(call.arguments as String);
+      if (call.method == 'hotspotStopped') hotspotStopped.value++;
     });
   }
+
+  // ---- private Wi-Fi for pairing/sync (see Hotspot.kt) ----
+
+  /// Bumped when the system turns our hotspot off (e.g. the user started their own).
+  static final hotspotStopped = ValueNotifier<int>(0);
+
+  /// Only Android 13+ can start one; iOS can only join.
+  static Future<bool> hotspotSupported() async {
+    try {
+      return await _native.invokeMethod<bool>('hotspotSupported') ?? false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Starts the local-only hotspot (asks for "Nearby devices" the first time).
+  /// Returns {ssid, pass, sec}. Throws PlatformException(denied | failed | unsupported).
+  static Future<Map<String, dynamic>> hotspotStart() async =>
+      Map<String, dynamic>.from(await away(() => _native.invokeMethod<Map>('hotspotStart')) ?? {});
+
+  static Future<bool> hotspotPermitted() async {
+    try {
+      return await _native.invokeMethod<bool>('hotspotPermitted') ?? false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static Future<void> hotspotStop() => _native.invokeMethod('hotspotStop').catchError((_) => null);
+
+  /// Join the other phone's hotspot for this session; the system asks the user to confirm.
+  static Future<void> wifiJoin(Map<String, dynamic> w) =>
+      away(() => _native.invokeMethod('wifiJoin', {'ssid': w['s'], 'pass': w['p'], 'sec': w['t'] ?? 1}));
+
+  static Future<void> wifiLeave() => _native.invokeMethod('wifiLeave').catchError((_) => null);
 }

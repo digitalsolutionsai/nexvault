@@ -366,6 +366,27 @@ pub fn local_addrs() -> Vec<String> {
 }
 
 /// Try every address at once (LAN entries get a small head start); first success wins.
+/// Whether a connection stays on the local network ("nearby") or crosses the internet
+/// ("internet", e.g. a phone on 4G/5G reached over IPv6). Two global IPv6 addresses in the same
+/// /64 are on the same link, so they count as nearby too. Shown to the user as the sync path.
+pub fn path_kind(local: IpAddr, peer: IpAddr) -> &'static str {
+    let near = match (local, peer) {
+        (_, IpAddr::V4(p)) => p.is_private() || p.is_loopback() || p.is_link_local(),
+        (IpAddr::V6(l), IpAddr::V6(p)) => {
+            let seg = p.segments();
+            let link_local = seg[0] & 0xffc0 == 0xfe80;
+            let ula = seg[0] & 0xfe00 == 0xfc00;
+            p.is_loopback() || link_local || ula || l.segments()[..4] == seg[..4]
+        }
+        (IpAddr::V4(_), IpAddr::V6(p)) => p.is_loopback(),
+    };
+    if near {
+        "nearby"
+    } else {
+        "internet"
+    }
+}
+
 pub fn connect_any(addrs: &[String], port: u16) -> Result<TcpStream> {
     // Test hook for the desktop CLI (e.g. reaching an emulator through `adb forward`).
     let mut all: Vec<String> = addrs.to_vec();

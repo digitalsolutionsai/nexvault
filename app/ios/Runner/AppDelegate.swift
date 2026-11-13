@@ -1,5 +1,6 @@
 import Flutter
 import LocalAuthentication
+import NetworkExtension
 import Security
 import UIKit
 import UniformTypeIdentifiers
@@ -33,6 +34,7 @@ import UniformTypeIdentifiers
 /// mirrored or AirPlayed.
 final class NexVaultNative: NSObject, FlutterPlugin, FlutterSceneLifeCycleDelegate {
   private var channel: FlutterMethodChannel?
+  private var joinedSsid: String? // the other phone's Wi-Fi, joined for one pairing/sync
   private var pendingLink: String?
   // auth prompt buttons, in the app language (setLabels)
   private var labelUsePin = "Use PIN"
@@ -112,6 +114,29 @@ final class NexVaultNative: NSObject, FlutterPlugin, FlutterSceneLifeCycleDelega
       result(nil)
     case "netIfaces":
       result(Self.netIfaces())
+    case "hotspotSupported":
+      // apps cannot start a hotspot on iOS; Personal Hotspot is the user's switch
+      result(false)
+    case "wifiJoin":
+      // Join the other phone's private Wi-Fi for this session only (iOS asks the user first).
+      let cfg = NEHotspotConfiguration(
+        ssid: args["ssid"] as? String ?? "", passphrase: args["pass"] as? String ?? "", isWEP: false)
+      cfg.joinOnce = true
+      NEHotspotConfigurationManager.shared.apply(cfg) { err in
+        if let e = err as NSError?, !(e.domain == NEHotspotConfigurationErrorDomain
+          && e.code == NEHotspotConfigurationError.alreadyAssociated.rawValue) {
+          let denied = e.domain == NEHotspotConfigurationErrorDomain
+            && e.code == NEHotspotConfigurationError.userDenied.rawValue
+          result(FlutterError(code: denied ? "denied" : "unavailable", message: e.localizedDescription, details: nil))
+          return
+        }
+        self.joinedSsid = cfg.ssid
+        result(true)
+      }
+    case "wifiLeave":
+      if let s = joinedSsid { NEHotspotConfigurationManager.shared.removeConfiguration(forSSID: s) }
+      joinedSsid = nil
+      result(nil)
     case "openAppSettings":
       if let u = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(u) }
       result(nil)

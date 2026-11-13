@@ -7,6 +7,7 @@ import '../core/keys.dart';
 import '../l10n/l10n.dart';
 import '../ui/seal.dart';
 import '../ui/theme.dart';
+import '../ui/hotspot.dart';
 import '../ui/widgets.dart';
 import 'workspace.dart';
 
@@ -28,16 +29,37 @@ class _CeremonyHostScreenState extends State<CeremonyHostScreen> {
   bool finishing = false;
   String? err;
 
+  Map<String, dynamic>? wifi; // this phone's private Wi-Fi, when started
+
   @override
   void initState() {
     super.initState();
-    Keys.refreshNet()
-        .then((_) => Core.call('ceremony_create', {'name': widget.name, if (widget.ws != null) 'ws': widget.ws}))
-        .then((r) {
-          setState(() => invite = r['invite']);
-          poll = Timer.periodic(const Duration(milliseconds: 500), (_) => _refresh());
-        })
-        .catchError((e) => setState(() => err = errText(e)));
+    _open();
+  }
+
+  Future<void> _open() async {
+    try {
+      await Keys.refreshNet();
+      final r = await Core.call('ceremony_create', {'name': widget.name, if (widget.ws != null) 'ws': widget.ws});
+      if (!mounted) return;
+      setState(() => invite = r['invite']);
+      poll?.cancel();
+      poll = Timer.periodic(const Duration(milliseconds: 500), (_) => _refresh());
+    } catch (e) {
+      if (mounted) setState(() => err = errText(e));
+    }
+  }
+
+  /// A new invite that carries the hotspot's address (only before anyone has scanned).
+  Future<void> _reopen(Map<String, dynamic>? w) async {
+    poll?.cancel();
+    setState(() {
+      wifi = w;
+      invite = null;
+      st = null;
+    });
+    await Core.call('ceremony_cancel').catchError((_) => null);
+    await _open();
   }
 
   Future<void> _refresh() async {
@@ -92,7 +114,7 @@ class _CeremonyHostScreenState extends State<CeremonyHostScreen> {
               style: t.bodySmall,
             ),
             const SizedBox(height: 16),
-            if (invite != null) Center(child: QrCard(invite!, size: 240)),
+            if (invite != null) Center(child: QrCard(withWifi(invite!, wifi), size: 240)),
             if (invite == null && err == null)
               const Padding(
                 padding: EdgeInsets.all(40),
@@ -105,6 +127,17 @@ class _CeremonyHostScreenState extends State<CeremonyHostScreen> {
               ),
             const SizedBox(height: 22),
             if (joiners.isNotEmpty) Text(tr.ceremonyStep2Host, style: t.titleMedium),
+            if (joiners.isEmpty && (invite != null || wifi != null))
+              Padding(padding: const EdgeInsets.only(bottom: 14), child: HotspotButton(onChange: _reopen)),
+            if (joiners.isEmpty && invite != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox.square(dimension: 16, child: CircularProgressIndicator(strokeWidth: 2, color: NV.dSub)),
+                  const SizedBox(width: 10),
+                  Text(tr.ceremonyWaitingScan, style: t.bodySmall),
+                ],
+              ),
             for (final j in joiners)
               _JoinerRow(j: j, onAccept: (ok) => Core.call('ceremony_accept', {'pk': j['pk'], 'ok': ok}).then((_) => _refresh())),
           ],

@@ -6,6 +6,8 @@ import '../core/bridge.dart';
 import '../core/keys.dart';
 import '../l10n/l10n.dart';
 import '../ui/theme.dart';
+import '../ui/sync_path.dart';
+import '../ui/hotspot.dart';
 import '../ui/widgets.dart';
 
 /// Host side of a group sync: a 5-minute code that members scan.
@@ -22,6 +24,7 @@ class _SyncHostScreenState extends State<SyncHostScreen> {
   Map<String, dynamic>? st;
   Timer? poll;
   String? err;
+  Map<String, dynamic>? wifi; // this phone's private Wi-Fi, when started
 
   @override
   void initState() {
@@ -116,7 +119,7 @@ class _SyncHostScreenState extends State<SyncHostScreen> {
             if (err != null) Text(err!, style: const TextStyle(color: NV.dBad)),
             if (st != null)
               Center(
-                child: Opacity(opacity: accepting ? 1 : .25, child: QrCard(st!['ticket'], size: 250)),
+                child: Opacity(opacity: accepting ? 1 : .25, child: QrCard(withWifi(st!['ticket'], wifi), size: 250)),
               ),
             const SizedBox(height: 14),
             if (st != null)
@@ -143,7 +146,19 @@ class _SyncHostScreenState extends State<SyncHostScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            Center(child: Text(tr.syncConnectVia, style: t.bodySmall)),
+            Center(
+              child: TextButton.icon(
+                onPressed: () => showSyncHow(context),
+                icon: const Icon(Icons.info_outline, size: 18),
+                label: Text(tr.syncConnectVia, style: t.bodySmall?.copyWith(color: NV.dText), textAlign: TextAlign.center),
+              ),
+            ),
+            HotspotButton(
+              onChange: (w) async {
+                setState(() => wifi = w);
+                await _start(); // a new code with the hotspot's address in it
+              },
+            ),
             const SizedBox(height: 14),
             Container(
               decoration: BoxDecoration(color: const Color(0x10FFFFFF), borderRadius: BorderRadius.circular(18)),
@@ -272,16 +287,32 @@ class _SyncJoinScreenState extends State<SyncJoinScreen> {
           padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
           child: Column(
             children: [
-              Icon(icon, size: 56, color: color),
-              const SizedBox(height: 18),
-              Text(title, style: t.headlineSmall, textAlign: TextAlign.center),
+              if (s == 'connecting' || s == 'syncing' || s == 'done')
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 28),
+                  child: SyncPath(
+                    via: '${st?['via'] ?? ''}',
+                    moving: s != 'done',
+                    searching: s == 'connecting',
+                    connected: s == 'done',
+                    peer: '$host',
+                  ),
+                )
+              else ...[
+                Icon(icon, size: 56, color: color),
+                const SizedBox(height: 18),
+              ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (s == 'done') ...[Icon(icon, size: 24, color: color), const SizedBox(width: 8)],
+                  Flexible(child: Text(title, style: t.headlineSmall, textAlign: TextAlign.center)),
+                ],
+              ),
               const SizedBox(height: 8),
               Text(text, style: t.bodySmall, textAlign: TextAlign.center),
-              if (s == 'connecting' || s == 'syncing')
-                const Padding(
-                  padding: EdgeInsets.only(top: 28),
-                  child: CircularProgressIndicator(color: NV.dText),
-                ),
+              const Spacer(),
+              TextButton(onPressed: () => showSyncHow(context), child: Text(tr.syncHowButton)),
             ],
           ),
         ),
@@ -295,3 +326,28 @@ class _SyncJoinScreenState extends State<SyncJoinScreen> {
     );
   }
 }
+
+/// "How sync works": the path picture and the no-server explanation.
+Future<void> showSyncHow(BuildContext context) => showModalBottomSheet<void>(
+  context: context,
+  isScrollControlled: true,
+  backgroundColor: NV.ground,
+  showDragHandle: true,
+  builder: (_) => DarkZone(
+    child: SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(tr.syncHowTitle, style: NV.dark().textTheme.headlineSmall),
+            const SizedBox(height: 20),
+            const SyncPath(),
+            const SizedBox(height: 20),
+            Text(tr.syncHowBody, style: NV.dark().textTheme.bodyMedium),
+          ],
+        ),
+      ),
+    ),
+  ),
+);

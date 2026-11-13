@@ -193,7 +193,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const SizedBox(height: 20),
                   Text(tr.authNoLockTitle, style: t.headlineSmall),
                   const SizedBox(height: 8),
-                  Text(tr.authNoLockBody, style: t.bodySmall),
+                  Text(tr.authNoLockBody(bioName), style: t.bodySmall),
                   const Spacer(),
                   if (busy) const LinearProgressIndicator(color: NV.dText),
                   const SizedBox(height: 8),
@@ -423,7 +423,7 @@ class _UnlockScreenState extends State<UnlockScreen> {
       const SizedBox(height: 20),
       Text(tr.authLocked, style: t.headlineSmall),
       const SizedBox(height: 6),
-      Text(tr.authDeviceUnlockHint, style: t.bodySmall),
+      Text(tr.authDeviceUnlockHint(bioName), style: t.bodySmall),
       const SizedBox(height: 24),
       SizedBox(
         height: 60,
