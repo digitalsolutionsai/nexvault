@@ -15,9 +15,21 @@ import '../ui/widgets.dart';
 import 'ceremony.dart';
 import 'sync.dart';
 
+/// Bumped when a link opened from outside the app has been handled, so the home list (which
+/// did not open that screen itself) reloads.
+final linkHandled = ValueNotifier<int>(0);
+
 /// Open a link handed over by Android: a nexvault:// code, or a QR image shared from
 /// another app (`nexvault-image:<path>`, written by ShareReceiverActivity).
 Future<void> openLink(BuildContext context, String link) async {
+  try {
+    await _openLink(context, link);
+  } finally {
+    linkHandled.value++;
+  }
+}
+
+Future<void> _openLink(BuildContext context, String link) async {
   const img = 'nexvault-image:';
   if (!link.startsWith(img)) {
     if (link.startsWith('nexvault://')) await openCode(context, link);
@@ -69,6 +81,22 @@ Future<void> openCode(BuildContext context, String code, {bool replace = false})
         await Keys.wifiJoin(wifi);
         joined = true;
         if (Platform.isIOS) await Future<void>.delayed(const Duration(seconds: 3)); // DHCP
+      } on PlatformException catch (e) {
+        if (e.code == 'vpn') {
+          // the phone just left its usual Wi-Fi for nothing: going on would fail anyway
+          if (context.mounted) {
+            await showDialog<void>(
+              context: context,
+              builder: (d) => AlertDialog(
+                title: Text(tr.hotspotVpnTitle),
+                content: Text(tr.hotspotJoinVpn),
+                actions: [TextButton(onPressed: () => Navigator.pop(d), child: Text(tr.authGotIt))],
+              ),
+            );
+          }
+          return;
+        }
+        if (context.mounted) toast(context, tr.hotspotJoinFailed, error: true);
       } catch (_) {
         if (context.mounted) toast(context, tr.hotspotJoinFailed, error: true);
       }

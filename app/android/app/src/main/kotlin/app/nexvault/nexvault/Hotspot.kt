@@ -122,8 +122,14 @@ class Hotspot(private val activity: MainActivity, private val stopped: () -> Uni
         fun reply(f: () -> Unit) = main.post { if (!replied) { replied = true; f() } }
         val cb = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(n: Network) {
-                cm.bindProcessToNetwork(n)
-                reply { result.success(true) }
+                // An always-on VPN that apps cannot bypass keeps every socket on itself, and
+                // the bind is refused: without it nothing reaches the other phone, so say so.
+                if (cm.bindProcessToNetwork(n)) {
+                    reply { result.success(true) }
+                } else {
+                    main.post { leave() }
+                    reply { result.error("vpn", "a VPN keeps the app off $ssid", null) }
+                }
             }
             override fun onUnavailable() {
                 joined = null

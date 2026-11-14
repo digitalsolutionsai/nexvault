@@ -52,6 +52,8 @@ class _CeremonyHostScreenState extends State<CeremonyHostScreen> {
 
   /// A new invite that carries the hotspot's address (only before anyone has scanned).
   Future<void> _reopen(Map<String, dynamic>? w) async {
+    // turned off after members joined: keep the invite, they are already connected
+    if ((st?['joiners'] as List?)?.isNotEmpty ?? false) return setState(() => wifi = w);
     poll?.cancel();
     setState(() {
       wifi = w;
@@ -126,9 +128,15 @@ class _CeremonyHostScreenState extends State<CeremonyHostScreen> {
                 child: Text(err!, style: const TextStyle(color: NV.dBad)),
               ),
             const SizedBox(height: 22),
+            // stays in the tree (keyed) once members join: removing it would stop the Wi-Fi they
+            // are on. Starting one is only offered before anyone has scanned.
+            if ((joiners.isEmpty && invite != null) || wifi != null)
+              Padding(
+                key: const ValueKey('hotspot'),
+                padding: const EdgeInsets.only(bottom: 14),
+                child: HotspotButton(onChange: _reopen),
+              ),
             if (joiners.isNotEmpty) Text(tr.ceremonyStep2Host, style: t.titleMedium),
-            if (joiners.isEmpty && (invite != null || wifi != null))
-              Padding(padding: const EdgeInsets.only(bottom: 14), child: HotspotButton(onChange: _reopen)),
             if (joiners.isEmpty && invite != null)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

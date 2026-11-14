@@ -25,6 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _load();
+    linkHandled.addListener(_load);
+  }
+
+  @override
+  void dispose() {
+    linkHandled.removeListener(_load);
+    super.dispose();
   }
 
   Future<void> _load() async {

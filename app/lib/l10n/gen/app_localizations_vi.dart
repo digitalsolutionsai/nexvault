@@ -1600,6 +1600,13 @@ class SVi extends S {
       'Không vào được Wi-Fi của máy kia, thử qua mạng hiện tại.';
 
   @override
+  String get hotspotVpnTitle => 'VPN đang chặn';
+
+  @override
+  String get hotspotJoinVpn =>
+      'VPN trên máy này giữ mọi app đi qua VPN, nên NexVault không dùng được Wi-Fi riêng của máy kia. Tạm tắt VPN một lúc rồi quét lại, hoặc vào cùng Wi-Fi với máy kia.';
+
+  @override
   String get hotspotPermTitle => 'Cho phép Thiết bị ở gần';
 
   @override

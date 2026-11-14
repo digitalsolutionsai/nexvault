@@ -425,6 +425,8 @@
   "hotspotFailed": "Không phát được Wi-Fi. Hãy tắt Điểm phát sóng của máy rồi thử lại.",
   "hotspotJoining": "Đang vào Wi-Fi của máy kia ({ssid})…",
   "hotspotJoinFailed": "Không vào được Wi-Fi của máy kia, thử qua mạng hiện tại.",
+  "hotspotVpnTitle": "VPN đang chặn",
+  "hotspotJoinVpn": "VPN trên máy này giữ mọi app đi qua VPN, nên NexVault không dùng được Wi-Fi riêng của máy kia. Tạm tắt VPN một lúc rồi quét lại, hoặc vào cùng Wi-Fi với máy kia.",
   "hotspotPermTitle": "Cho phép Thiết bị ở gần",
   "hotspotPermBody": "Android cần quyền Thiết bị ở gần thì app mới phát được Wi-Fi. Câu hỏi của Android có nhắc tới vị trí thiết bị, nhưng NexVault chỉ dùng quyền này để phát Wi-Fi riêng và không biết vị trí của bạn.",
   "hotspotPermContinue": "Tiếp tục"

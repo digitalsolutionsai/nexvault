@@ -2652,6 +2652,18 @@ abstract class S {
   /// **'Could not join the other phone\'s Wi-Fi. Trying the current network instead.'**
   String get hotspotJoinFailed;
 
+  /// No description provided for @hotspotVpnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A VPN is in the way'**
+  String get hotspotVpnTitle;
+
+  /// No description provided for @hotspotJoinVpn.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone\'s VPN keeps apps on the VPN, so NexVault can\'t use the other phone\'s private Wi-Fi. Pause the VPN for a moment and scan again, or join the same Wi-Fi as the other phone.'**
+  String get hotspotJoinVpn;
+
   /// No description provided for @hotspotPermTitle.
   ///
   /// In en, this message translates to:

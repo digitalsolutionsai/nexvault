@@ -1624,6 +1624,13 @@ class SEn extends S {
       'Could not join the other phone\'s Wi-Fi. Trying the current network instead.';
 
   @override
+  String get hotspotVpnTitle => 'A VPN is in the way';
+
+  @override
+  String get hotspotJoinVpn =>
+      'This phone\'s VPN keeps apps on the VPN, so NexVault can\'t use the other phone\'s private Wi-Fi. Pause the VPN for a moment and scan again, or join the same Wi-Fi as the other phone.';
+
+  @override
   String get hotspotPermTitle => 'Allow Nearby devices';
 
   @override

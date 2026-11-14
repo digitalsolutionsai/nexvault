@@ -154,6 +154,7 @@ class _SyncHostScreenState extends State<SyncHostScreen> {
               ),
             ),
             HotspotButton(
+              key: const ValueKey('hotspot'),
               onChange: (w) async {
                 setState(() => wifi = w);
                 await _start(); // a new code with the hotspot's address in it
