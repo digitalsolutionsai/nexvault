@@ -53,6 +53,7 @@
   "authPinsDontMatch": "The PINs don't match",
   "authLocked": "NexVault is locked",
   "authDeviceUnlockHint": "Unlock with {bio} or your device passcode",
+  "authSealLostHint": "This device reset its key store, so the screen lock can't open NexVault any more. Your data is still here: open it with your recovery code.",
   "authRetryIn": "{seconds, plural, =1{Try again in 1 second} other{Try again in {seconds} seconds}}",
   "@authRetryIn": {
     "placeholders": {

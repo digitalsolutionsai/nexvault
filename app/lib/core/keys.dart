@@ -21,7 +21,9 @@ import '../l10n/l10n.dart';
 /// Unsealed bytes go native -> core directly (JNI on Android, C ABI on iOS) and are wiped.
 class Keys {
   static const _native = MethodChannel('nexvault/native');
-  static const _store = FlutterSecureStorage();
+  /// Android: never let the plugin erase the store on a read error (its default). After a
+  /// restart the Keystore can briefly fail; [isSetUp] decides what to do instead.
+  static const _store = FlutterSecureStorage(aOptions: AndroidOptions(resetOnError: false));
   static const maxAttempts = 10;
 
   /// Integration tests cannot answer the system lock-screen prompt; they take the PIN path.
@@ -47,21 +49,118 @@ class Keys {
 
   static Future<String> vaultDir() async => '${(await getApplicationSupportDirectory()).path}/vault';
 
-  /// True when there is both a vault on disk and a way to open it. Anything else is a leftover
-  /// that can never be opened, and is cleared so onboarding starts clean: a first run cut off
-  /// half-way (vault file, no custody yet), or iOS Keychain items that outlive an uninstall
-  /// (custody, no vault).
+  /// True when there is a vault on disk to unlock.
+  ///
+  /// A vault is never erased here just because the key store lost its records: Android can
+  /// reset that store (a Keystore error after a restart or an OS update), while the vault, its
+  /// lock-screen seal and the recovery copy next to it are all still there. Custody is rebuilt
+  /// from those instead. Only what can never be opened is cleared: leftovers without a vault
+  /// (iOS Keychain items outlive an uninstall) and a first run cut off before anything sealed it.
   static Future<bool> isSetUp() async {
-    final custody = await deviceMode() || (await _store.read(key: 'pin_blob')) != null;
     final dir = await vaultDir();
     final vault = await File('$dir/vault.bin').exists() || await File('$dir/vault.bak').exists();
-    if (custody && vault) return true;
-    if (custody || await Directory(dir).exists()) await wipe();
+    if (!vault) {
+      if (await Directory(dir).exists() || await _hasCustody().catchError((_) => true)) await wipe();
+      return false;
+    }
+    try {
+      if (await _readStore() && await _hasCustody()) {
+        await _mirrorRecovery();
+        return true;
+      }
+    } catch (e) {
+      debugPrint('key store: $e');
+      return true; // keep the vault; the unlock screen still offers the seal and the recovery code
+    }
+    bool sealed;
+    try {
+      sealed = await devSealed();
+    } catch (_) {
+      return true;
+    }
+    if (sealed) {
+      // the lock-screen seal survived: this is device custody, whatever the store forgot
+      try {
+        await _store.write(key: 'mode', value: 'dev');
+      } catch (_) {}
+      return true;
+    }
+    if (await (await _recFile()).exists()) return true; // opens with the recovery code
+    await wipe(); // nothing can open it: a first run cut off before it was sealed
     return false;
   }
 
+  static Future<bool> _hasCustody() async =>
+      (await _store.read(key: 'mode')) == 'dev' || (await _store.read(key: 'pin_blob')) != null;
+
+  /// Reads the store, retrying a moment while the Keystore wakes up. If it still fails, only
+  /// the store is reset (settings, PIN blob, counters): the vault and its seal stay.
+  static Future<bool> _readStore() async {
+    for (var i = 0; i < 3; i++) {
+      try {
+        await _store.read(key: 'mode');
+        return true;
+      } catch (e) {
+        debugPrint('key store read failed: $e');
+        await Future<void>.delayed(const Duration(milliseconds: 600));
+      }
+    }
+    await _store.deleteAll();
+    return false;
+  }
+
+  /// The recovery copy (the vault key wrapped under the 120-bit code with Argon2id) also lives
+  /// next to the vault, so the code still works when the key store is reset. It is safe on disk:
+  /// it cannot be opened without the code, and app storage is excluded from backups.
+  static Future<File> _recFile() async => File('${await vaultDir()}/recovery.blob');
+
+  static Future<void> _writeRecFile(String blob) async {
+    final f = await _recFile();
+    final tmp = File('${f.path}.tmp');
+    await tmp.writeAsString(blob, flush: true);
+    await tmp.rename(f.path);
+  }
+
+  /// Vaults made before the copy existed get it on their next start.
+  static Future<void> _mirrorRecovery() async {
+    try {
+      final b = await _store.read(key: 'rec_blob');
+      if (b != null && !await (await _recFile()).exists()) await _writeRecFile(b);
+    } catch (e) {
+      debugPrint('recovery copy: $e');
+    }
+  }
+
+  /// A PIN or recovery blob from the store; the recovery one falls back to its copy on disk.
+  static Future<String?> _blob(String key) async {
+    String? b;
+    try {
+      b = await _store.read(key: key);
+    } catch (_) {
+      if (key != 'rec_blob') rethrow;
+    }
+    if (b != null || key != 'rec_blob') return b;
+    final f = await _recFile();
+    return await f.exists() ? f.readAsString() : null;
+  }
+
+  /// An app PIN is set (PIN custody).
+  static Future<bool> hasPin() async {
+    try {
+      return await _store.read(key: 'pin_blob') != null;
+    } catch (_) {
+      return false;
+    }
+  }
+
   /// True when the vault opens with the device lock screen (no app PIN).
-  static Future<bool> deviceMode() async => (await _store.read(key: 'mode')) == 'dev';
+  static Future<bool> deviceMode() async {
+    try {
+      return await _store.read(key: 'mode') == 'dev';
+    } catch (_) {
+      return false;
+    }
+  }
 
   /// The device has a secure lock screen that can protect the vault key (Android 11+, iOS).
   static Future<bool> devAvailable() async {
@@ -102,6 +201,7 @@ class Keys {
   /// Replace the recovery code of the open vault. The old code stops working.
   static Future<String> newRecoveryCode() async {
     final r = await Core.call('recovery_new');
+    await _writeRecFile(r['blob'] as String);
     await _store.write(key: 'rec_blob', value: r['blob'] as String);
     return r['code'] as String;
   }
@@ -164,7 +264,7 @@ class Keys {
 
   /// Run a PIN / recovery-code operation; count failures and apply the growing lockout.
   static Future<T> _counted<T>(String blobKey, Future<T> Function(String blob) op) async {
-    final blob = await _store.read(key: blobKey);
+    final blob = await _blob(blobKey);
     if (blob == null) throw CoreError(blobKey == 'pin_blob' ? 'no PIN set' : 'no recovery code');
     try {
       final r = await op(blob);
@@ -195,7 +295,11 @@ class Keys {
         await _native.invokeMethod('bioClear', {'kind': kind});
       } catch (_) {}
     }
-    await _store.deleteAll();
+    try {
+      await _store.deleteAll();
+    } catch (e) {
+      debugPrint('key store: $e');
+    }
     final d = Directory(await vaultDir());
     if (await d.exists()) await d.delete(recursive: true);
   }

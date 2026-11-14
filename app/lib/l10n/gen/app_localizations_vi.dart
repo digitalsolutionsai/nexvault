@@ -132,6 +132,10 @@ class SVi extends S {
   }
 
   @override
+  String get authSealLostHint =>
+      'Máy vừa đặt lại kho khoá nên khoá màn hình không mở được NexVault nữa. Dữ liệu vẫn còn nguyên: mở bằng mã khôi phục.';
+
+  @override
   String authRetryIn(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,

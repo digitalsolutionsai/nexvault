@@ -289,6 +289,12 @@ abstract class S {
   /// **'Unlock with {bio} or your device passcode'**
   String authDeviceUnlockHint(String bio);
 
+  /// No description provided for @authSealLostHint.
+  ///
+  /// In en, this message translates to:
+  /// **'This device reset its key store, so the screen lock can\'t open NexVault any more. Your data is still here: open it with your recovery code.'**
+  String get authSealLostHint;
+
   /// No description provided for @authRetryIn.
   ///
   /// In en, this message translates to:

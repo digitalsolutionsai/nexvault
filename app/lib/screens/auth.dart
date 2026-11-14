@@ -148,42 +148,52 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: switch (step) {
-              0 => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 40),
-                  const _Brand(),
-                  const SizedBox(height: 24),
-                  Text(tr.authWelcomeTitle, style: t.headlineSmall),
-                  const SizedBox(height: 8),
-                  Text(tr.authWelcomeBody, style: t.bodySmall),
-                  const SizedBox(height: 28),
-                  TextField(
-                    controller: name,
-                    autofocus: true,
-                    textCapitalization: TextCapitalization.words,
-                    decoration: InputDecoration(labelText: tr.authYourName),
-                    onChanged: (_) => setState(() {}),
+              // scrolls when the keyboard leaves less room than the layout needs
+              0 => LayoutBuilder(
+                builder: (_, box) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: box.maxHeight),
+                    child: IntrinsicHeight(
+                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 40),
+                        const _Brand(),
+                        const SizedBox(height: 24),
+                        Text(tr.authWelcomeTitle, style: t.headlineSmall),
+                        const SizedBox(height: 8),
+                        Text(tr.authWelcomeBody, style: t.bodySmall),
+                        const SizedBox(height: 28),
+                        TextField(
+                          controller: name,
+                          autofocus: true,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: InputDecoration(labelText: tr.authYourName),
+                          onChanged: (_) => setState(() {}),
+                        ),
+                        if (err != null) ...[const SizedBox(height: 12), Text(err!, style: const TextStyle(color: NV.dBad, fontSize: 14))],
+                        const Spacer(),
+                        if (busy) const LinearProgressIndicator(color: NV.dText),
+                        const SizedBox(height: 8),
+                        FilledButton(onPressed: name.text.trim().isEmpty || busy ? null : _next, child: Text(tr.authContinue)),
+                        const SizedBox(height: 8),
+                        TextButton(
+                          style: TextButton.styleFrom(foregroundColor: NV.dText),
+                          onPressed: () async {
+                            final r = await pickBackup(context);
+                            if (r != null) {
+                              restore = r;
+                              await _next();
+                            }
+                          },
+                          child: Text(tr.authRestoreBackup),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                    ),
+                    ),
                   ),
-                  if (err != null) ...[const SizedBox(height: 12), Text(err!, style: const TextStyle(color: NV.dBad, fontSize: 14))],
-                  const Spacer(),
-                  if (busy) const LinearProgressIndicator(color: NV.dText),
-                  const SizedBox(height: 8),
-                  FilledButton(onPressed: name.text.trim().isEmpty || busy ? null : _next, child: Text(tr.authContinue)),
-                  const SizedBox(height: 8),
-                  TextButton(
-                    style: TextButton.styleFrom(foregroundColor: NV.dText),
-                    onPressed: () async {
-                      final r = await pickBackup(context);
-                      if (r != null) {
-                        restore = r;
-                        await _next();
-                      }
-                    },
-                    child: Text(tr.authRestoreBackup),
-                  ),
-                  const SizedBox(height: 12),
-                ],
+                ),
               ),
               5 => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,6 +283,7 @@ class _UnlockScreenState extends State<UnlockScreen> {
   bool busy = false;
   bool bio = false;
   bool? dev; // device-lock custody (no app PIN)
+  bool sealed = true; // false: the key store was reset and the seal went with it; only the code opens it
   int lockLeft = 0;
   Timer? timer;
   final code = TextEditingController();
@@ -281,14 +292,26 @@ class _UnlockScreenState extends State<UnlockScreen> {
   void initState() {
     super.initState();
     _refreshLock();
-    Keys.deviceMode().then((d) {
-      setState(() => dev = d);
-      if (d) return _device();
-      Keys.bioEnabled().then((v) {
-        setState(() => bio = v);
-        if (v) _bio();
-      });
+    _start();
+  }
+
+  Future<void> _start() async {
+    // no app PIN on record means device custody, even if the store forgot its 'mode'
+    final d = await Keys.deviceMode() || !await Keys.hasPin();
+    final s = !d || await Keys.devSealed().catchError((_) => true);
+    if (!mounted) return;
+    setState(() {
+      dev = d;
+      sealed = s;
     });
+    if (d) {
+      if (s) _device();
+      return;
+    }
+    final v = await Keys.bioEnabled().catchError((_) => false);
+    if (!mounted) return;
+    setState(() => bio = v);
+    if (v) _bio();
   }
 
   Future<void> _device() async {
@@ -423,7 +446,10 @@ class _UnlockScreenState extends State<UnlockScreen> {
       const SizedBox(height: 20),
       Text(tr.authLocked, style: t.headlineSmall),
       const SizedBox(height: 6),
-      Text(tr.authDeviceUnlockHint(bioName), style: t.bodySmall),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Text(sealed ? tr.authDeviceUnlockHint(bioName) : tr.authSealLostHint, style: t.bodySmall, textAlign: TextAlign.center),
+      ),
       const SizedBox(height: 24),
       SizedBox(
         height: 60,
@@ -443,17 +469,20 @@ class _UnlockScreenState extends State<UnlockScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: SizedBox(
           width: double.infinity,
-          child: FilledButton.icon(onPressed: busy ? null : _device, icon: const Icon(Icons.lock_open), label: Text(tr.authUnlock)),
+          child: sealed
+              ? FilledButton.icon(onPressed: busy ? null : _device, icon: const Icon(Icons.lock_open), label: Text(tr.authUnlock))
+              : FilledButton.icon(onPressed: busy || lockLeft > 0 ? null : _recovery, icon: const Icon(Icons.key), label: Text(tr.authUseRecovery)),
         ),
       ),
       const SizedBox(height: 8),
-      TextButton(
-        onPressed: busy || lockLeft > 0 ? null : _recovery,
-        child: Text(
-          tr.authUseRecovery,
-          style: const TextStyle(color: NV.dSub, fontWeight: FontWeight.w500),
+      if (sealed)
+        TextButton(
+          onPressed: busy || lockLeft > 0 ? null : _recovery,
+          child: Text(
+            tr.authUseRecovery,
+            style: const TextStyle(color: NV.dSub, fontWeight: FontWeight.w500),
+          ),
         ),
-      ),
       const SizedBox(height: 20),
     ],
   );

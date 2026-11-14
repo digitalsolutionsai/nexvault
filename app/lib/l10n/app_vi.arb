@@ -32,6 +32,7 @@
   "authPinsDontMatch": "Hai lần nhập không khớp",
   "authLocked": "NexVault đã khoá",
   "authDeviceUnlockHint": "Mở bằng {bio} hoặc mã mở máy",
+  "authSealLostHint": "Máy vừa đặt lại kho khoá nên khoá màn hình không mở được NexVault nữa. Dữ liệu vẫn còn nguyên: mở bằng mã khôi phục.",
   "authRetryIn": "{seconds, plural, other{Thử lại sau {seconds} giây}}",
   "authUseRecovery": "Dùng mã khôi phục",
   "authEnterAppPin": "Nhập PIN của app để mở khoá",

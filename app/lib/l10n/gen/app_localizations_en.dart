@@ -134,6 +134,10 @@ class SEn extends S {
   }
 
   @override
+  String get authSealLostHint =>
+      'This device reset its key store, so the screen lock can\'t open NexVault any more. Your data is still here: open it with your recovery code.';
+
+  @override
   String authRetryIn(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
