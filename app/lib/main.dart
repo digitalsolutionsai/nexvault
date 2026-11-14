@@ -5,6 +5,7 @@ import 'core/keys.dart';
 import 'l10n/l10n.dart';
 import 'screens/auth.dart';
 import 'screens/home.dart';
+import 'screens/intro.dart';
 import 'screens/scan.dart';
 import 'ui/theme.dart';
 import 'ui/widgets.dart';
@@ -25,6 +26,7 @@ class NexVaultApp extends StatefulWidget {
 class _NexVaultAppState extends State<NexVaultApp> with WidgetsBindingObserver {
   bool unlocked = false;
   bool? setUp;
+  bool intro = true; // first launch: the three intro pages before setup
   String? pendingLink;
   DateTime? pausedAt;
   bool pausedForSystem = false; // a picker / system screen the user opened from the app
@@ -116,7 +118,11 @@ class _NexVaultAppState extends State<NexVaultApp> with WidgetsBindingObserver {
     if (setUp == null) {
       home = const Scaffold(backgroundColor: NV.ground);
     } else if (!unlocked) {
-      home = setUp! ? UnlockScreen(onUnlocked: _unlocked) : OnboardingScreen(onDone: _unlocked);
+      home = setUp!
+          ? UnlockScreen(onUnlocked: _unlocked)
+          : intro
+          ? IntroScreen(onDone: () => setState(() => intro = false))
+          : OnboardingScreen(onDone: _unlocked);
     } else {
       home = HomeScreen(
         onWiped: () {
@@ -124,6 +130,7 @@ class _NexVaultAppState extends State<NexVaultApp> with WidgetsBindingObserver {
           setState(() {
             unlocked = false;
             setUp = false;
+            intro = false; // they know the app already
           });
         },
         onLock: () async {

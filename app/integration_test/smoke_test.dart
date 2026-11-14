@@ -35,6 +35,10 @@ void main() {
 
     app.main();
     await settle(t);
+    // the intro pages come first on a fresh install: skip them
+    expect(find.text(tr.intro1Title), findsOneWidget);
+    await t.tap(find.text(tr.introSkip));
+    await settle(t);
     await t.enterText(find.byType(TextField), 'An');
     await t.pump();
     await t.tap(find.text(tr.authContinue));
