@@ -5,6 +5,15 @@
   "langTitle": "Language",
   "authNeedScreenLock": "Screen lock authentication is needed to protect your data. Try again.",
   "authPinMismatchRetry": "The PINs don't match. Enter them again.",
+  "introSkip": "Skip",
+  "introNext": "Next",
+  "introStart": "Get started",
+  "intro1Title": "One vault for a small group",
+  "intro1Body": "Passwords, API keys, .env files, SSH keys: shared by the group and kept on each member's own phone.",
+  "intro2Title": "No server",
+  "intro2Body": "Phones send straight to each other, encrypted. Nobody sits in between, not even us.",
+  "intro3Title": "Join in person",
+  "intro3Body": "Sit together and read a 6-digit code aloud. That is how you know it is the right person on the right phone.",
   "authWelcomeTitle": "Welcome to NexVault",
   "authWelcomeBody": "Secrets live only on members' devices, never on a server. Your name is shown on the devices of the people in your workspaces.",
   "authYourName": "Your name",
@@ -86,8 +95,6 @@
       }
     }
   },
-  "ceremonyStep1Create": "Step 1: each member opens NexVault, taps \"Scan code\" and scans this code. Both devices need to be on the same Wi-Fi, or connected to your hotspot.",
-  "ceremonyStep1Invite": "Step 1: the new member opens NexVault, taps \"Scan code\" and scans this code while next to you. Then every other member needs to approve.",
   "ceremonyStep2Host": "Step 2: read the code aloud to each person",
   "ceremonyFinishing": "Finishing…",
   "ceremonyWaitVerify": "Waiting for verification",
@@ -682,10 +689,7 @@
       }
     }
   },
-  "syncHostIntro": "Members open NexVault and scan this code. For someone far away, send a picture of it by chat (only workspace devices can decrypt it) and keep this device on 4G/5G.",
-  "syncExpiresIn": "Code expires in ",
   "syncExpired": "Code expired, connections are closed",
-  "syncConnectVia": "Direct over Wi-Fi or 4G/5G, with no server in between",
   "syncShareText": "NexVault sync code ({name}), expires in {left}",
   "@syncShareText": {
     "placeholders": {
@@ -697,7 +701,6 @@
       }
     }
   },
-  "syncShareButton": "Send to someone far away",
   "syncNewCode": "New code",
   "syncEnd": "Finish",
   "syncJoinConnecting": "Connecting to {host}…",
@@ -960,7 +963,7 @@
   "syncPathNoServer": "No server in between",
   "syncPathNearby": "Same Wi-Fi",
   "syncPathInternet": "Direct over 4G/5G (IPv6)",
-  "syncPathEither": "Same Wi-Fi, or direct over 4G/5G",
+  "syncPathEither": "Same Wi-Fi, or direct over 4G/⁠5G",
   "syncPathThisDevice": "This device",
   "syncPathOther": "Other device",
   "syncHowTitle": "How sync works",
@@ -1034,8 +1037,6 @@
   "secretWifiQr": "Show QR to join this Wi-Fi",
   "secretWifiQrHint": "On the other phone, open the camera and scan to join. Closes by itself in 60 seconds.",
   "secretWifiNoName": "Add the network name first (Edit)",
-  "hotspotOffer": "No shared Wi-Fi? Start a private Wi-Fi on this phone",
-  "hotspotOnTitle": "Private Wi-Fi on: {ssid}",
   "@hotspotOnTitle": {
     "placeholders": {
       "ssid": {
@@ -1043,8 +1044,6 @@
       }
     }
   },
-  "hotspotOnHint": "The code includes it: the other phone joins by scanning. It has no internet and turns off when you leave this screen.",
-  "hotspotStop": "Turn off",
   "hotspotDenied": "NexVault needs the Nearby devices permission to start a Wi-Fi. It does not use your location.",
   "hotspotFailed": "Could not start a Wi-Fi on this phone. Turn off the phone's own hotspot and try again.",
   "hotspotJoining": "Joining the other phone's Wi-Fi ({ssid})…",
@@ -1057,6 +1056,20 @@
   },
   "hotspotJoinFailed": "Could not join the other phone's Wi-Fi. Trying the current network instead.",
   "hotspotVpnTitle": "A VPN is in the way",
+  "hotspotStartShort": "Private Wi-Fi",
+  "hotspotStopShort": "Stop Wi-Fi",
+  "netDirect": "Over Wi-Fi or 4G/⁠5G",
+  "netSameWifi": "Both phones on the same Wi-Fi",
+  "netHotspot": "Private Wi-Fi: {ssid}",
+  "netHotspotHint": "in the code",
+  "syncScanHint": "Scan with NexVault",
+  "syncShareShort": "Send far away",
+  "syncShareTitle": "Send to someone far away",
+  "syncShareBody": "Send this picture in any chat. Only devices in this workspace can open it. Keep this phone on 4G/5G and on this screen until they have scanned.",
+  "syncShareGo": "Send picture",
+  "ceremonyScanCreate": "Each member scans this with NexVault",
+  "ceremonyScanInvite": "The new member scans this next to you, then the others approve",
+  "@netHotspot": {"placeholders": {"ssid": {"type": "String"}}},
   "hotspotJoinVpn": "This phone's VPN keeps apps on the VPN, so NexVault can't use the other phone's private Wi-Fi. Pause the VPN for a moment and scan again, or join the same Wi-Fi as the other phone.",
   "hotspotPermTitle": "Allow Nearby devices",
   "hotspotPermBody": "Android asks for the Nearby devices permission before an app can start a Wi-Fi. Its wording mentions the position of devices, but NexVault only uses it to start this private Wi-Fi and never sees your location.",

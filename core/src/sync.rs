@@ -166,6 +166,13 @@ fn accept_loop(
     // dropping the listener closes the port
 }
 
+/// True when the other end closed the connection without sending a byte (waits up to 15 s for
+/// the first one; the handshake reads with the same limit).
+fn closed_unspoken(stream: &std::net::TcpStream) -> Result<bool> {
+    stream.set_read_timeout(Some(Duration::from_secs(15)))?;
+    Ok(matches!(stream.peek(&mut [0u8; 1]), Ok(0)))
+}
+
 fn serve_peer(
     stream: std::net::TcpStream,
     vault: SharedVault,
@@ -174,6 +181,11 @@ fn serve_peer(
     psk: [u8; 32],
 ) -> Result<()> {
     let ws = sess.ws;
+    // A member's phone dials every address in the ticket at once and keeps the first that
+    // answers; the others close again without a byte. Those are not strangers.
+    if closed_unspoken(&stream)? {
+        return Ok(());
+    }
     let chan = match Chan::responder(stream, &dh_sk, &psk) {
         Ok(c) => c,
         Err(e) => {
@@ -448,5 +460,26 @@ fn run_join(
             }
             _ => {}
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::closed_unspoken;
+    use std::io::Write;
+    use std::net::{TcpListener, TcpStream};
+
+    #[test]
+    fn a_dial_that_lost_the_race_is_not_a_stranger() {
+        let l = TcpListener::bind("127.0.0.1:0").unwrap();
+        let a = l.local_addr().unwrap();
+        drop(TcpStream::connect(a).unwrap()); // the losing parallel dial: closes, says nothing
+        let (s, _) = l.accept().unwrap();
+        assert!(closed_unspoken(&s).unwrap());
+
+        let mut c = TcpStream::connect(a).unwrap(); // anyone who speaks still meets the handshake
+        c.write_all(b"x").unwrap();
+        let (s, _) = l.accept().unwrap();
+        assert!(!closed_unspoken(&s).unwrap());
     }
 }

@@ -109,13 +109,6 @@ class _CeremonyHostScreenState extends State<CeremonyHostScreen> {
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
           children: [
-            Text(
-              widget.ws == null
-                  ? tr.ceremonyStep1Create
-                  : tr.ceremonyStep1Invite,
-              style: t.bodySmall,
-            ),
-            const SizedBox(height: 16),
             if (invite != null) Center(child: QrCard(withWifi(invite!, wifi), size: 240)),
             if (invite == null && err == null)
               const Padding(
@@ -127,14 +120,22 @@ class _CeremonyHostScreenState extends State<CeremonyHostScreen> {
                 padding: const EdgeInsets.only(top: 16),
                 child: Text(err!, style: const TextStyle(color: NV.dBad)),
               ),
-            const SizedBox(height: 22),
+            const SizedBox(height: 12),
+            if (invite != null)
+              Text(
+                widget.ws == null ? tr.ceremonyScanCreate : tr.ceremonyScanInvite,
+                style: t.bodyMedium?.copyWith(color: NV.dText),
+                textAlign: TextAlign.center,
+              ),
+            if (invite != null) ...[const SizedBox(height: 6), NetLine(wifi: wifi, plain: tr.netSameWifi)],
+            const SizedBox(height: 10),
             // stays in the tree (keyed) once members join: removing it would stop the Wi-Fi they
             // are on. Starting one is only offered before anyone has scanned.
             if ((joiners.isEmpty && invite != null) || wifi != null)
               Padding(
                 key: const ValueKey('hotspot'),
-                padding: const EdgeInsets.only(bottom: 14),
-                child: HotspotButton(onChange: _reopen),
+                padding: const EdgeInsets.only(bottom: 18),
+                child: Center(child: HotspotButton(onChange: _reopen)),
               ),
             if (joiners.isNotEmpty) Text(tr.ceremonyStep2Host, style: t.titleMedium),
             if (joiners.isEmpty && invite != null)

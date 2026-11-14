@@ -26,6 +26,36 @@ class SEn extends S {
   String get authPinMismatchRetry => 'The PINs don\'t match. Enter them again.';
 
   @override
+  String get introSkip => 'Skip';
+
+  @override
+  String get introNext => 'Next';
+
+  @override
+  String get introStart => 'Get started';
+
+  @override
+  String get intro1Title => 'One vault for a small group';
+
+  @override
+  String get intro1Body =>
+      'Passwords, API keys, .env files, SSH keys: shared by the group and kept on each member\'s own phone.';
+
+  @override
+  String get intro2Title => 'No server';
+
+  @override
+  String get intro2Body =>
+      'Phones send straight to each other, encrypted. Nobody sits in between, not even us.';
+
+  @override
+  String get intro3Title => 'Join in person';
+
+  @override
+  String get intro3Body =>
+      'Sit together and read a 6-digit code aloud. That is how you know it is the right person on the right phone.';
+
+  @override
   String get authWelcomeTitle => 'Welcome to NexVault';
 
   @override
@@ -183,14 +213,6 @@ class SEn extends S {
   String ceremonyInviteTitle(String name) {
     return 'Invite to $name';
   }
-
-  @override
-  String get ceremonyStep1Create =>
-      'Step 1: each member opens NexVault, taps \"Scan code\" and scans this code. Both devices need to be on the same Wi-Fi, or connected to your hotspot.';
-
-  @override
-  String get ceremonyStep1Invite =>
-      'Step 1: the new member opens NexVault, taps \"Scan code\" and scans this code while next to you. Then every other member needs to approve.';
 
   @override
   String get ceremonyStep2Host => 'Step 2: read the code aloud to each person';
@@ -1164,26 +1186,12 @@ class SEn extends S {
   }
 
   @override
-  String get syncHostIntro =>
-      'Members open NexVault and scan this code. For someone far away, send a picture of it by chat (only workspace devices can decrypt it) and keep this device on 4G/5G.';
-
-  @override
-  String get syncExpiresIn => 'Code expires in ';
-
-  @override
   String get syncExpired => 'Code expired, connections are closed';
-
-  @override
-  String get syncConnectVia =>
-      'Direct over Wi-Fi or 4G/5G, with no server in between';
 
   @override
   String syncShareText(String name, String left) {
     return 'NexVault sync code ($name), expires in $left';
   }
-
-  @override
-  String get syncShareButton => 'Send to someone far away';
 
   @override
   String get syncNewCode => 'New code';
@@ -1471,7 +1479,7 @@ class SEn extends S {
   String get syncPathInternet => 'Direct over 4G/5G (IPv6)';
 
   @override
-  String get syncPathEither => 'Same Wi-Fi, or direct over 4G/5G';
+  String get syncPathEither => 'Same Wi-Fi, or direct over 4G/⁠5G';
 
   @override
   String get syncPathThisDevice => 'This device';
@@ -1591,22 +1599,6 @@ class SEn extends S {
   String get secretWifiNoName => 'Add the network name first (Edit)';
 
   @override
-  String get hotspotOffer =>
-      'No shared Wi-Fi? Start a private Wi-Fi on this phone';
-
-  @override
-  String hotspotOnTitle(String ssid) {
-    return 'Private Wi-Fi on: $ssid';
-  }
-
-  @override
-  String get hotspotOnHint =>
-      'The code includes it: the other phone joins by scanning. It has no internet and turns off when you leave this screen.';
-
-  @override
-  String get hotspotStop => 'Turn off';
-
-  @override
   String get hotspotDenied =>
       'NexVault needs the Nearby devices permission to start a Wi-Fi. It does not use your location.';
 
@@ -1625,6 +1617,49 @@ class SEn extends S {
 
   @override
   String get hotspotVpnTitle => 'A VPN is in the way';
+
+  @override
+  String get hotspotStartShort => 'Private Wi-Fi';
+
+  @override
+  String get hotspotStopShort => 'Stop Wi-Fi';
+
+  @override
+  String get netDirect => 'Over Wi-Fi or 4G/⁠5G';
+
+  @override
+  String get netSameWifi => 'Both phones on the same Wi-Fi';
+
+  @override
+  String netHotspot(String ssid) {
+    return 'Private Wi-Fi: $ssid';
+  }
+
+  @override
+  String get netHotspotHint => 'in the code';
+
+  @override
+  String get syncScanHint => 'Scan with NexVault';
+
+  @override
+  String get syncShareShort => 'Send far away';
+
+  @override
+  String get syncShareTitle => 'Send to someone far away';
+
+  @override
+  String get syncShareBody =>
+      'Send this picture in any chat. Only devices in this workspace can open it. Keep this phone on 4G/5G and on this screen until they have scanned.';
+
+  @override
+  String get syncShareGo => 'Send picture';
+
+  @override
+  String get ceremonyScanCreate => 'Each member scans this with NexVault';
+
+  @override
+  String get ceremonyScanInvite =>
+      'The new member scans this next to you, then the others approve';
 
   @override
   String get hotspotJoinVpn =>

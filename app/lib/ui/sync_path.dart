@@ -74,7 +74,7 @@ class _SyncPathState extends State<SyncPath> with SingleTickerProviderStateMixin
             children: [
               const Icon(Icons.cloud_off_outlined, size: 18, color: NV.dSub),
               const SizedBox(width: 6),
-              Text(tr.syncPathNoServer, style: caption),
+              Flexible(child: Text(tr.syncPathNoServer, style: caption, textAlign: TextAlign.center)),
             ],
           ),
           const SizedBox(height: 10),

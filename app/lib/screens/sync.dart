@@ -25,11 +25,31 @@ class _SyncHostScreenState extends State<SyncHostScreen> {
   Timer? poll;
   String? err;
   Map<String, dynamic>? wifi; // this phone's private Wi-Fi, when started
+  bool hotspot = false; // this phone can start one
 
   @override
   void initState() {
     super.initState();
     _start();
+    Keys.hotspotSupported().then((v) {
+      if (mounted) setState(() => hotspot = v);
+    });
+  }
+
+  /// Far-away members: say once what sending the picture means, then share it.
+  Future<void> _share() async {
+    final go = await showDialog<bool>(
+      context: context,
+      builder: (d) => AlertDialog(
+        title: Text(tr.syncShareTitle),
+        content: Text(tr.syncShareBody),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(d, false), child: Text(tr.commonCancel)),
+          TextButton(onPressed: () => Navigator.pop(d, true), child: Text(tr.syncShareGo)),
+        ],
+      ),
+    );
+    if (go == true && st != null) await shareQr(st!['ticket'], tr.syncShareText(widget.name, _left()));
   }
 
   Future<void> _start() async {
@@ -79,99 +99,92 @@ class _SyncHostScreenState extends State<SyncHostScreen> {
     final accepting = st?['accepting'] == true;
     final live = ((st?['members'] as List?) ?? widget.members).cast<Map<String, dynamic>>();
     final others = live.where((m) => m['me'] != true).toList();
-    final rows = <Widget>[];
+    final chips = <Widget>[];
     for (final m in others) {
       final p = peers.where((x) => x['pk'] == m['pk']).firstOrNull;
-      final (label, color) = switch (p?['state']) {
-        'done' => (tr.syncPeerDone, NV.dOk),
-        'syncing' => (tr.syncPeerSyncing, NV.dRun),
-        'left' => (tr.syncPeerLeft, NV.dWait),
-        _ => (tr.syncPeerNotScanned, NV.dWait),
+      final state = switch (p?['state']) {
+        'done' => _Peer.done,
+        'syncing' => _Peer.syncing,
+        'left' => _Peer.left,
+        _ => _Peer.waiting,
       };
-      rows.add(_PeerRow(name: m['name'], label: label, color: color));
+      chips.add(_PeerChip(name: m['name'], state: state));
     }
     // devices that joined but were not in the member list when this screen opened (newcomers)
     for (final p in peers.where((p) => p['state'] == 'removed')) {
-      rows.add(_PeerRow(name: p['name'] ?? '?', title: tr.syncPeerRemovedName('${p['name']}'), label: tr.syncPeerRejected, color: NV.dBad));
+      chips.add(_PeerChip(name: p['name'] ?? '?', title: tr.syncPeerRemovedName('${p['name']}'), state: _Peer.rejected));
     }
     for (final p in peers.where((p) => !['rejected', 'removed'].contains(p['state']) && !others.any((m) => m['pk'] == p['pk']))) {
-      final (label, color) = switch (p['state']) {
-        'done' => (tr.syncPeerDone, NV.dOk),
-        'left' => (tr.syncPeerLeft, NV.dWait),
-        _ => (tr.syncPeerSyncing, NV.dRun),
+      final state = switch (p['state']) {
+        'done' => _Peer.done,
+        'left' => _Peer.left,
+        _ => _Peer.syncing,
       };
-      rows.add(_PeerRow(name: p['name'] ?? '?', title: tr.syncPeerNewMember('${p['name'] ?? '?'}'), label: label, color: color));
+      chips.add(_PeerChip(name: p['name'] ?? '?', title: tr.syncPeerNewMember('${p['name'] ?? '?'}'), state: state));
     }
     final strangers = peers.where((p) => p['state'] == 'rejected').length;
-    if (strangers > 0) rows.add(_PeerRow(name: '?', title: tr.syncStrangers(strangers), label: tr.syncPeerRejected, color: NV.dBad));
+    if (strangers > 0) chips.add(_PeerChip(name: tr.syncStrangers(strangers), mark: '?', state: _Peer.rejected));
 
     return DarkZone(
       child: Scaffold(
-        appBar: AppBar(leading: const CloseButton(), title: Text(tr.syncHostTitle(widget.name))),
+        appBar: AppBar(
+          leading: const CloseButton(),
+          title: Text(tr.syncHostTitle(widget.name)),
+          actions: [IconButton(tooltip: tr.syncHowTitle, onPressed: () => showSyncHow(context), icon: const Icon(Icons.help_outline))],
+        ),
         body: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
           children: [
-            Text(
-              tr.syncHostIntro,
-              style: t.bodySmall,
-            ),
-            const SizedBox(height: 14),
-            if (err != null) Text(err!, style: const TextStyle(color: NV.dBad)),
-            if (st != null)
+            // every child above the Wi-Fi button is always present, so its place in the list
+            // (and the running hotspot it owns) never moves
+            err != null ? Text(err!, style: const TextStyle(color: NV.dBad)) : const SizedBox.shrink(),
+            if (st == null) const SizedBox.shrink() else
               Center(
                 child: Opacity(opacity: accepting ? 1 : .25, child: QrCard(withWifi(st!['ticket'], wifi), size: 250)),
               ),
-            const SizedBox(height: 14),
-            if (st != null)
-              Center(
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(text: accepting ? tr.syncExpiresIn : tr.syncExpired, style: t.bodySmall),
-                      if (accepting)
-                        TextSpan(
-                          text: _left(),
-                          style: const TextStyle(fontFamily: NV.mono, fontSize: 22, color: NV.dText),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(3),
-                child: LinearProgressIndicator(value: _frac(), minHeight: 5, color: NV.dText, backgroundColor: const Color(0x40FFFFFF)),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: TextButton.icon(
-                onPressed: () => showSyncHow(context),
-                icon: const Icon(Icons.info_outline, size: 18),
-                label: Text(tr.syncConnectVia, style: t.bodySmall?.copyWith(color: NV.dText), textAlign: TextAlign.center),
-              ),
-            ),
-            HotspotButton(
-              key: const ValueKey('hotspot'),
-              onChange: (w) async {
-                setState(() => wifi = w);
-                await _start(); // a new code with the hotspot's address in it
-              },
-            ),
-            const SizedBox(height: 14),
-            Container(
-              decoration: BoxDecoration(color: const Color(0x10FFFFFF), borderRadius: BorderRadius.circular(18)),
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Column(children: rows),
-            ),
             const SizedBox(height: 12),
-            if (st != null)
-              TextButton.icon(
-                onPressed: () => shareQr(st!['ticket'], tr.syncShareText(widget.name, _left())),
-                icon: const Icon(Icons.ios_share),
-                label: Text(tr.syncShareButton),
+            if (st == null) const SizedBox.shrink() else
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: accepting
+                    ? [
+                        Text(tr.syncScanHint, style: t.bodyMedium?.copyWith(color: NV.dText)),
+                        const SizedBox(width: 12),
+                        SizedBox.square(
+                          dimension: 16,
+                          child: ExcludeSemantics(child: CircularProgressIndicator(value: _frac(), strokeWidth: 2.5, color: NV.dText, backgroundColor: const Color(0x40FFFFFF))),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(_left(), style: const TextStyle(fontFamily: NV.mono, fontSize: 17, color: NV.dText)),
+                      ]
+                    : [Flexible(child: Text(tr.syncExpired, style: t.bodySmall, textAlign: TextAlign.center))],
+              ),
+            const SizedBox(height: 6),
+            NetLine(wifi: wifi, plain: tr.netDirect, onInfo: () => showSyncHow(context)),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (hotspot) ...[
+                  HotspotButton(
+                    key: const ValueKey('hotspot'),
+                    onChange: (w) async {
+                      setState(() => wifi = w);
+                      await _start(); // a new code with the hotspot's address in it
+                    },
+                  ),
+                  const SizedBox(width: 24),
+                ],
+                ActionTile(icon: Icons.ios_share, label: tr.syncShareShort, onTap: st == null || !accepting ? null : _share),
+              ],
+            ),
+            const SizedBox(height: 18),
+            if (chips.isNotEmpty)
+              Container(
+                decoration: BoxDecoration(color: const Color(0x10FFFFFF), borderRadius: BorderRadius.circular(18)),
+                padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+                child: Wrap(spacing: 10, runSpacing: 12, children: chips),
               ),
           ],
         ),
@@ -196,31 +209,83 @@ class _SyncHostScreenState extends State<SyncHostScreen> {
   }
 }
 
-class _PeerRow extends StatelessWidget {
-  const _PeerRow({required this.name, required this.label, required this.color, this.title});
-  final String name, label;
-  final String? title;
-  final Color color;
+enum _Peer { waiting, syncing, done, left, rejected }
+
+/// A member as a face with a small badge for where their sync stands; the words are in the
+/// tooltip and for screen readers.
+class _PeerChip extends StatelessWidget {
+  const _PeerChip({required this.name, required this.state, this.title, this.mark});
+  final String name;
+  final String? title, mark; // mark: the avatar's letter, when not the name's first
+  final _Peer state;
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-    child: Row(
-      children: [
-        Avatar(name, size: 36, dark: true),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Text(
-            title ?? name,
-            style: const TextStyle(fontFamily: NV.sans, fontSize: 15, fontWeight: FontWeight.w500, color: NV.dText),
+  Widget build(BuildContext context) {
+    final (label, color) = switch (state) {
+      _Peer.done => (tr.syncPeerDone, NV.dOk),
+      _Peer.syncing => (tr.syncPeerSyncing, NV.dRun),
+      _Peer.left => (tr.syncPeerLeft, NV.dWait),
+      _Peer.rejected => (tr.syncPeerRejected, NV.dBad),
+      _Peer.waiting => (tr.syncPeerNotScanned, NV.dWait),
+    };
+    final badge = switch (state) {
+      _Peer.syncing => Padding(padding: const EdgeInsets.all(3), child: CircularProgressIndicator(strokeWidth: 2, color: color)),
+      _ => Icon(
+        switch (state) {
+          _Peer.done => Icons.check,
+          _Peer.left => Icons.logout,
+          _Peer.rejected => Icons.block,
+          _ => Icons.schedule,
+        },
+        size: 13,
+        color: state == _Peer.done ? NV.dark().scaffoldBackgroundColor : color,
+      ),
+    };
+    final who = title ?? name;
+    return Tooltip(
+      message: '$who: $label',
+      triggerMode: TooltipTriggerMode.tap,
+      child: Semantics(
+        label: '$who: $label',
+        excludeSemantics: true,
+        child: SizedBox(
+          width: 66,
+          child: Column(
+            children: [
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Opacity(opacity: state == _Peer.waiting || state == _Peer.left ? .55 : 1, child: Avatar(mark ?? name, size: 48, dark: true)),
+                  Positioned(
+                    right: -3,
+                    bottom: -3,
+                    child: Container(
+                      width: 22,
+                      height: 22,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: state == _Peer.done ? color : NV.dark().scaffoldBackgroundColor,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: state == _Peer.done ? color : const Color(0x40FFFFFF), width: 1.5),
+                      ),
+                      child: badge,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: NV.sans, fontSize: 12.5, color: state == _Peer.rejected ? NV.dBad : NV.dText),
+              ),
+            ],
           ),
         ),
-        Text(
-          label,
-          style: TextStyle(fontFamily: NV.sans, fontSize: 14, color: color),
-        ),
-      ],
-    ),
-  );
+      ),
+    );
+  }
 }
 
 /// Member side: scanned a sync code.

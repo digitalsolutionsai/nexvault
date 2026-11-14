@@ -111,38 +111,112 @@ class _HotspotButtonState extends State<HotspotButton> {
   @override
   Widget build(BuildContext context) {
     if (!supported) return const SizedBox.shrink();
-    final t = NV.dark().textTheme; // host screens sit inside DarkZone
-    if (wifi == null) {
-      return Center(
-        child: TextButton.icon(
-          onPressed: busy ? null : _start,
-          icon: busy
-              ? const SizedBox.square(dimension: 16, child: CircularProgressIndicator(strokeWidth: 2, color: NV.dSub))
-              : const Icon(Icons.wifi_tethering, size: 20),
-          label: Text(tr.hotspotOffer, textAlign: TextAlign.center),
-        ),
-      );
-    }
-    return Container(
-      padding: const EdgeInsets.fromLTRB(14, 10, 4, 10),
-      decoration: BoxDecoration(color: const Color(0x1AFFFFFF), borderRadius: BorderRadius.circular(14)),
-      child: Row(
-        children: [
-          const Icon(Icons.wifi_tethering, color: NV.dOk),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(tr.hotspotOnTitle('${wifi!['ssid']}'), style: t.titleMedium?.copyWith(fontSize: 14.5)),
-                const SizedBox(height: 2),
-                Text(tr.hotspotOnHint, style: t.bodySmall),
-              ],
+    final on = wifi != null;
+    return ActionTile(
+      icon: on ? Icons.wifi_tethering_off : Icons.wifi_tethering,
+      label: on ? tr.hotspotStopShort : tr.hotspotStartShort,
+      busy: busy,
+      active: on,
+      onTap: on ? _stop : _start,
+    );
+  }
+}
+
+/// A round icon button with its name underneath, for a host screen's side actions: reads at a
+/// glance and keeps its words whole at large text sizes. [active]: filled, for something running.
+class ActionTile extends StatelessWidget {
+  const ActionTile({super.key, required this.icon, required this.label, this.onTap, this.busy = false, this.active = false});
+  final IconData icon;
+  final String label;
+  final VoidCallback? onTap;
+  final bool busy, active;
+  @override
+  Widget build(BuildContext context) {
+    final off = onTap == null && !busy;
+    return Semantics(
+      button: true,
+      enabled: !off,
+      label: label,
+      excludeSemantics: true,
+      child: InkWell(
+        onTap: busy ? null : onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Opacity(
+          opacity: off ? .4 : 1,
+          child: SizedBox(
+            width: 112,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: Column(
+                children: [
+                  Container(
+                    width: 52,
+                    height: 52,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: active ? NV.dOk : const Color(0x14FFFFFF),
+                      border: Border.all(color: active ? NV.dOk : const Color(0x40FFFFFF)),
+                    ),
+                    child: busy
+                        ? const SizedBox.square(dimension: 20, child: CircularProgressIndicator(strokeWidth: 2, color: NV.dText))
+                        : Icon(icon, size: 24, color: active ? NV.dark().scaffoldBackgroundColor : NV.dText),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    label,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontFamily: NV.sans, fontSize: 13, height: 1.25, color: NV.dText),
+                  ),
+                ],
+              ),
             ),
           ),
-          TextButton(onPressed: _stop, child: Text(tr.hotspotStop)),
-        ],
+        ),
       ),
+    );
+  }
+}
+
+/// One line under a host's QR: how the other phone will reach this one. With a private Wi-Fi
+/// on, its name (people joining by hand need it); otherwise [plain]. Tapping it runs [onInfo].
+class NetLine extends StatelessWidget {
+  const NetLine({super.key, required this.wifi, required this.plain, this.onInfo});
+  final Map<String, dynamic>? wifi;
+  final String plain;
+  final VoidCallback? onInfo;
+  @override
+  Widget build(BuildContext context) {
+    final t = NV.dark().textTheme;
+    final on = wifi != null;
+    final line = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(on ? Icons.wifi_tethering : Icons.swap_horiz, size: 18, color: on ? NV.dOk : NV.dSub),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: on ? tr.netHotspot('${wifi!['ssid']}') : plain, style: t.bodyMedium?.copyWith(color: NV.dText)),
+                if (on) TextSpan(text: '\n${tr.netHotspotHint}', style: t.bodySmall),
+              ],
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        if (onInfo != null && !on) ...[const SizedBox(width: 6), const Icon(Icons.help_outline, size: 16, color: NV.dSub)],
+      ],
+    );
+    return Center(
+      child: onInfo == null
+          ? line
+          : InkWell(
+              onTap: onInfo,
+              borderRadius: BorderRadius.circular(10),
+              child: Padding(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), child: line),
+            ),
     );
   }
 }

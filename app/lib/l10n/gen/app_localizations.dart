@@ -127,6 +127,60 @@ abstract class S {
   /// **'The PINs don\'t match. Enter them again.'**
   String get authPinMismatchRetry;
 
+  /// No description provided for @introSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get introSkip;
+
+  /// No description provided for @introNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get introNext;
+
+  /// No description provided for @introStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get introStart;
+
+  /// No description provided for @intro1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'One vault for a small group'**
+  String get intro1Title;
+
+  /// No description provided for @intro1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords, API keys, .env files, SSH keys: shared by the group and kept on each member\'s own phone.'**
+  String get intro1Body;
+
+  /// No description provided for @intro2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'No server'**
+  String get intro2Title;
+
+  /// No description provided for @intro2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Phones send straight to each other, encrypted. Nobody sits in between, not even us.'**
+  String get intro2Body;
+
+  /// No description provided for @intro3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Join in person'**
+  String get intro3Title;
+
+  /// No description provided for @intro3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit together and read a 6-digit code aloud. That is how you know it is the right person on the right phone.'**
+  String get intro3Body;
+
   /// No description provided for @authWelcomeTitle.
   ///
   /// In en, this message translates to:
@@ -360,18 +414,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Invite to {name}'**
   String ceremonyInviteTitle(String name);
-
-  /// No description provided for @ceremonyStep1Create.
-  ///
-  /// In en, this message translates to:
-  /// **'Step 1: each member opens NexVault, taps \"Scan code\" and scans this code. Both devices need to be on the same Wi-Fi, or connected to your hotspot.'**
-  String get ceremonyStep1Create;
-
-  /// No description provided for @ceremonyStep1Invite.
-  ///
-  /// In en, this message translates to:
-  /// **'Step 1: the new member opens NexVault, taps \"Scan code\" and scans this code while next to you. Then every other member needs to approve.'**
-  String get ceremonyStep1Invite;
 
   /// No description provided for @ceremonyStep2Host.
   ///
@@ -1927,41 +1969,17 @@ abstract class S {
   /// **'Sync {name}'**
   String syncHostTitle(String name);
 
-  /// No description provided for @syncHostIntro.
-  ///
-  /// In en, this message translates to:
-  /// **'Members open NexVault and scan this code. For someone far away, send a picture of it by chat (only workspace devices can decrypt it) and keep this device on 4G/5G.'**
-  String get syncHostIntro;
-
-  /// No description provided for @syncExpiresIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Code expires in '**
-  String get syncExpiresIn;
-
   /// No description provided for @syncExpired.
   ///
   /// In en, this message translates to:
   /// **'Code expired, connections are closed'**
   String get syncExpired;
 
-  /// No description provided for @syncConnectVia.
-  ///
-  /// In en, this message translates to:
-  /// **'Direct over Wi-Fi or 4G/5G, with no server in between'**
-  String get syncConnectVia;
-
   /// No description provided for @syncShareText.
   ///
   /// In en, this message translates to:
   /// **'NexVault sync code ({name}), expires in {left}'**
   String syncShareText(String name, String left);
-
-  /// No description provided for @syncShareButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Send to someone far away'**
-  String get syncShareButton;
 
   /// No description provided for @syncNewCode.
   ///
@@ -2373,7 +2391,7 @@ abstract class S {
   /// No description provided for @syncPathEither.
   ///
   /// In en, this message translates to:
-  /// **'Same Wi-Fi, or direct over 4G/5G'**
+  /// **'Same Wi-Fi, or direct over 4G/⁠5G'**
   String get syncPathEither;
 
   /// No description provided for @syncPathThisDevice.
@@ -2604,30 +2622,6 @@ abstract class S {
   /// **'Add the network name first (Edit)'**
   String get secretWifiNoName;
 
-  /// No description provided for @hotspotOffer.
-  ///
-  /// In en, this message translates to:
-  /// **'No shared Wi-Fi? Start a private Wi-Fi on this phone'**
-  String get hotspotOffer;
-
-  /// No description provided for @hotspotOnTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Private Wi-Fi on: {ssid}'**
-  String hotspotOnTitle(String ssid);
-
-  /// No description provided for @hotspotOnHint.
-  ///
-  /// In en, this message translates to:
-  /// **'The code includes it: the other phone joins by scanning. It has no internet and turns off when you leave this screen.'**
-  String get hotspotOnHint;
-
-  /// No description provided for @hotspotStop.
-  ///
-  /// In en, this message translates to:
-  /// **'Turn off'**
-  String get hotspotStop;
-
   /// No description provided for @hotspotDenied.
   ///
   /// In en, this message translates to:
@@ -2657,6 +2651,84 @@ abstract class S {
   /// In en, this message translates to:
   /// **'A VPN is in the way'**
   String get hotspotVpnTitle;
+
+  /// No description provided for @hotspotStartShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Private Wi-Fi'**
+  String get hotspotStartShort;
+
+  /// No description provided for @hotspotStopShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop Wi-Fi'**
+  String get hotspotStopShort;
+
+  /// No description provided for @netDirect.
+  ///
+  /// In en, this message translates to:
+  /// **'Over Wi-Fi or 4G/⁠5G'**
+  String get netDirect;
+
+  /// No description provided for @netSameWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Both phones on the same Wi-Fi'**
+  String get netSameWifi;
+
+  /// No description provided for @netHotspot.
+  ///
+  /// In en, this message translates to:
+  /// **'Private Wi-Fi: {ssid}'**
+  String netHotspot(String ssid);
+
+  /// No description provided for @netHotspotHint.
+  ///
+  /// In en, this message translates to:
+  /// **'in the code'**
+  String get netHotspotHint;
+
+  /// No description provided for @syncScanHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan with NexVault'**
+  String get syncScanHint;
+
+  /// No description provided for @syncShareShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Send far away'**
+  String get syncShareShort;
+
+  /// No description provided for @syncShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to someone far away'**
+  String get syncShareTitle;
+
+  /// No description provided for @syncShareBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Send this picture in any chat. Only devices in this workspace can open it. Keep this phone on 4G/5G and on this screen until they have scanned.'**
+  String get syncShareBody;
+
+  /// No description provided for @syncShareGo.
+  ///
+  /// In en, this message translates to:
+  /// **'Send picture'**
+  String get syncShareGo;
+
+  /// No description provided for @ceremonyScanCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Each member scans this with NexVault'**
+  String get ceremonyScanCreate;
+
+  /// No description provided for @ceremonyScanInvite.
+  ///
+  /// In en, this message translates to:
+  /// **'The new member scans this next to you, then the others approve'**
+  String get ceremonyScanInvite;
 
   /// No description provided for @hotspotJoinVpn.
   ///

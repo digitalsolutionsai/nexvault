@@ -26,6 +26,36 @@ class SVi extends S {
   String get authPinMismatchRetry => 'Hai lần nhập không khớp, nhập lại';
 
   @override
+  String get introSkip => 'Bỏ qua';
+
+  @override
+  String get introNext => 'Tiếp';
+
+  @override
+  String get introStart => 'Bắt đầu';
+
+  @override
+  String get intro1Title => 'Két chung cho nhóm nhỏ';
+
+  @override
+  String get intro1Body =>
+      'Mật khẩu, API key, file .env, khoá SSH: cả nhóm dùng chung, nằm ngay trên máy của từng người.';
+
+  @override
+  String get intro2Title => 'Không có máy chủ';
+
+  @override
+  String get intro2Body =>
+      'Các máy gửi thẳng cho nhau, đã mã hoá. Không ai đứng giữa, kể cả chúng tôi.';
+
+  @override
+  String get intro3Title => 'Gặp mặt để vào nhóm';
+
+  @override
+  String get intro3Body =>
+      'Ngồi cạnh nhau, đọc to một mã 6 số. Vậy là chắc chắn đúng người, đúng máy.';
+
+  @override
   String get authWelcomeTitle => 'Chào mừng tới NexVault';
 
   @override
@@ -180,14 +210,6 @@ class SVi extends S {
   String ceremonyInviteTitle(String name) {
     return 'Mời vào $name';
   }
-
-  @override
-  String get ceremonyStep1Create =>
-      'Bước 1: từng thành viên mở NexVault, bấm \"Quét mã\" và quét mã này. Hai máy cần cùng Wi-Fi hoặc bắt hotspot của bạn.';
-
-  @override
-  String get ceremonyStep1Invite =>
-      'Bước 1: người mới mở NexVault, bấm \"Quét mã\" và quét mã này khi đang ở cạnh bạn. Sau đó mọi thành viên khác cần đồng ý.';
 
   @override
   String get ceremonyStep2Host => 'Bước 2: đọc to mã cho từng người';
@@ -1144,26 +1166,12 @@ class SVi extends S {
   }
 
   @override
-  String get syncHostIntro =>
-      'Thành viên mở NexVault và quét mã này. Người ở xa: gửi ảnh mã qua chat (chỉ thiết bị trong workspace giải mã được) và để máy này dùng 4G/5G.';
-
-  @override
-  String get syncExpiresIn => 'Mã hết hạn sau ';
-
-  @override
   String get syncExpired => 'Mã đã hết hạn, cổng kết nối đã đóng';
-
-  @override
-  String get syncConnectVia =>
-      'Kết nối thẳng qua Wi-Fi hoặc 4G/5G, không qua máy chủ trung gian';
 
   @override
   String syncShareText(String name, String left) {
     return 'Mã sync NexVault ($name), hết hạn sau $left';
   }
-
-  @override
-  String get syncShareButton => 'Gửi ảnh mã cho người ở xa';
 
   @override
   String get syncNewCode => 'Tạo mã mới';
@@ -1447,7 +1455,7 @@ class SVi extends S {
   String get syncPathInternet => 'Kết nối thẳng qua 4G/5G (IPv6)';
 
   @override
-  String get syncPathEither => 'Cùng Wi-Fi, hoặc thẳng qua 4G/5G';
+  String get syncPathEither => 'Cùng Wi-Fi, hoặc thẳng qua 4G/⁠5G';
 
   @override
   String get syncPathThisDevice => 'Máy này';
@@ -1567,22 +1575,6 @@ class SVi extends S {
   String get secretWifiNoName => 'Hãy thêm tên mạng Wi-Fi trước (Sửa)';
 
   @override
-  String get hotspotOffer =>
-      'Không có Wi-Fi chung? Phát Wi-Fi riêng từ máy này';
-
-  @override
-  String hotspotOnTitle(String ssid) {
-    return 'Đang phát Wi-Fi riêng: $ssid';
-  }
-
-  @override
-  String get hotspotOnHint =>
-      'Mã QR đã kèm Wi-Fi này: máy kia quét là tự vào. Wi-Fi này không có internet và tự tắt khi bạn rời màn hình.';
-
-  @override
-  String get hotspotStop => 'Tắt';
-
-  @override
   String get hotspotDenied =>
       'NexVault cần quyền Thiết bị ở gần để phát Wi-Fi. App không dùng vị trí của bạn.';
 
@@ -1601,6 +1593,49 @@ class SVi extends S {
 
   @override
   String get hotspotVpnTitle => 'VPN đang chặn';
+
+  @override
+  String get hotspotStartShort => 'Phát Wi-Fi riêng';
+
+  @override
+  String get hotspotStopShort => 'Tắt Wi-Fi riêng';
+
+  @override
+  String get netDirect => 'Qua Wi-Fi hoặc 4G/⁠5G';
+
+  @override
+  String get netSameWifi => 'Hai máy cần cùng Wi-Fi';
+
+  @override
+  String netHotspot(String ssid) {
+    return 'Wi-Fi riêng: $ssid';
+  }
+
+  @override
+  String get netHotspotHint => 'đã kèm trong mã';
+
+  @override
+  String get syncScanHint => 'Quét bằng NexVault';
+
+  @override
+  String get syncShareShort => 'Gửi người ở xa';
+
+  @override
+  String get syncShareTitle => 'Gửi cho người ở xa';
+
+  @override
+  String get syncShareBody =>
+      'Gửi ảnh này qua chat nào cũng được. Chỉ thiết bị trong workspace mở được. Giữ máy này trên 4G/5G và ở màn hình này đến khi họ quét xong.';
+
+  @override
+  String get syncShareGo => 'Gửi ảnh';
+
+  @override
+  String get ceremonyScanCreate => 'Từng thành viên quét mã này bằng NexVault';
+
+  @override
+  String get ceremonyScanInvite =>
+      'Người mới quét mã khi ở cạnh bạn, sau đó các thành viên khác đồng ý';
 
   @override
   String get hotspotJoinVpn =>
