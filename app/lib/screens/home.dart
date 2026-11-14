@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.fromLTRB(8, 48, 8, 0),
                 child: Column(
                   children: [
-                    const Icon(Icons.groups_2_outlined, size: 48, color: NV.ink2),
+                    Icon(Icons.groups_2_outlined, size: 48, color: NV.ink2),
                     const SizedBox(height: 16),
                     Text(tr.homeEmptyTitle, style: t.titleMedium),
                     const SizedBox(height: 6),

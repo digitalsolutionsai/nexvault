@@ -22,7 +22,7 @@ void toast(BuildContext context, String msg, {bool error = false}) {
           msg,
           style: const TextStyle(fontFamily: NV.sans, color: Colors.white),
         ),
-        backgroundColor: error ? NV.danger : NV.ink,
+        backgroundColor: error ? const Color(0xFFA8302E) : const Color(0xFF13252A),
       ),
     );
 }
@@ -102,8 +102,8 @@ class Avatar extends StatelessWidget {
   final bool dark;
   @override
   Widget build(BuildContext context) {
-    final bg = me ? NV.verdigris : (dark ? const Color(0x1FFFFFFF) : const Color(0xFFDCE5E2));
-    final fg = me ? Colors.white : (dark ? NV.dText : NV.ink);
+    final bg = me ? NV.verdigris : (dark ? const Color(0x1FFFFFFF) : NV.tint);
+    final fg = me ? (dark ? Colors.white : NV.onVerdigris) : (dark ? NV.dText : NV.ink);
     return Container(
       width: size,
       height: size,
@@ -135,8 +135,8 @@ class FileBadge extends StatelessWidget {
     height: 48,
     alignment: Alignment.center,
     decoration: BoxDecoration(
-      color: const Color(0xFFE4E9E7),
-      border: Border.all(color: const Color(0xFFC5D0CD), width: 1.5),
+      color: NV.tint,
+      border: Border.all(color: NV.line, width: 1.5),
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(8),
         topRight: Radius.circular(14),
@@ -145,14 +145,14 @@ class FileBadge extends StatelessWidget {
       ),
     ),
     child: switch (kind) {
-      'login' => const Icon(Icons.person_outline, size: 22, color: NV.ink),
-      'api' => const Icon(Icons.vpn_key_outlined, size: 22, color: NV.ink),
-      'wifi' => const Icon(Icons.wifi, size: 22, color: NV.ink),
-      'text' => const Icon(Icons.sticky_note_2_outlined, size: 22, color: NV.ink),
-      'file' => const Icon(Icons.insert_drive_file_outlined, size: 22, color: NV.ink),
+      'login' => Icon(Icons.person_outline, size: 22, color: NV.ink),
+      'api' => Icon(Icons.vpn_key_outlined, size: 22, color: NV.ink),
+      'wifi' => Icon(Icons.wifi, size: 22, color: NV.ink),
+      'text' => Icon(Icons.sticky_note_2_outlined, size: 22, color: NV.ink),
+      'file' => Icon(Icons.insert_drive_file_outlined, size: 22, color: NV.ink),
       _ => Text(
         label(kind),
-        style: const TextStyle(fontFamily: NV.mono, fontSize: 12, fontWeight: FontWeight.w500, color: NV.ink),
+        style: TextStyle(fontFamily: NV.mono, fontSize: 12, fontWeight: FontWeight.w500, color: NV.ink),
       ),
     },
   );
@@ -409,7 +409,7 @@ class QrCard extends StatelessWidget {
     width: size,
     height: size,
     padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(color: NV.surface, borderRadius: BorderRadius.circular(22)),
+    decoration: BoxDecoration(color: NV.qrPaper, borderRadius: BorderRadius.circular(22)),
     child: Stack(
       alignment: Alignment.center,
       children: [
@@ -418,8 +418,8 @@ class QrCard extends StatelessWidget {
           version: QrVersions.auto,
           errorCorrectionLevel: QrErrorCorrectLevel.M,
           gapless: true,
-          eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: NV.ink),
-          dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: NV.ink),
+          eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: NV.qrInk),
+          dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: NV.qrInk),
           semanticsLabel: tr.qrLabel,
         ),
       ],
@@ -438,8 +438,8 @@ Future<void> shareQr(String data, String text) async {
     version: QrVersions.auto,
     errorCorrectionLevel: QrErrorCorrectLevel.M,
     gapless: true,
-    eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: NV.ink),
-    dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: NV.ink),
+    eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: NV.qrInk),
+    dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: NV.qrInk),
   ).paint(canvas, const Size(px - 120, px - 120));
   final img = await rec.endRecording().toImage(px.toInt(), px.toInt());
   final bytes = (await img.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
@@ -502,11 +502,11 @@ Future<void> showRecoveryCode(BuildContext context, String code) {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(color: const Color(0xFFE4E9E7), borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(color: NV.tint, borderRadius: BorderRadius.circular(12)),
                   child: SelectableText(
                     _twoLines(code),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontFamily: NV.mono, fontSize: 17, height: 1.5, color: NV.ink),
+                    style: TextStyle(fontFamily: NV.mono, fontSize: 17, height: 1.5, color: NV.ink),
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -518,7 +518,7 @@ Future<void> showRecoveryCode(BuildContext context, String code) {
                       label: Text(tr.recoveryPrint),
                     ),
                     Expanded(
-                      child: Text(tr.recoveryPrintHint, style: const TextStyle(fontSize: 13, color: NV.ink2)),
+                      child: Text(tr.recoveryPrintHint, style: TextStyle(fontSize: 13, color: NV.ink2)),
                     ),
                   ],
                 ),

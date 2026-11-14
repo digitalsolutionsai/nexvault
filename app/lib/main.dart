@@ -57,6 +57,22 @@ class _NexVaultAppState extends State<NexVaultApp> with WidgetsBindingObserver {
   @override
   void didChangeLocales(List<Locale>? locales) => _relocalize();
 
+  /// Dark mode switched while the app is open: screens read the palette directly (NV.ink…), not
+  /// through the theme, so every open screen is rebuilt, not just the app root.
+  @override
+  void didChangePlatformBrightness() {
+    if (_night() == NV.night) return;
+    setState(() {});
+    void all(Element e) {
+      e.markNeedsBuild();
+      e.visitChildren(all);
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => navKey.currentContext?.visitChildElements(all));
+  }
+
+  bool _night() => WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark;
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState s) {
     if (s == AppLifecycleState.paused) {
@@ -145,6 +161,7 @@ class _NexVaultAppState extends State<NexVaultApp> with WidgetsBindingObserver {
       tr = lookupS(locale);
       Keys.setNativeLabels();
     }
+    NV.night = _night();
     return MaterialApp(
       title: 'NexVault',
       locale: locale,

@@ -201,7 +201,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               if (err != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Text(err!, style: const TextStyle(color: NV.danger)),
+                  child: Text(err!, style: TextStyle(color: NV.danger)),
                 ),
             ],
           ),
@@ -353,8 +353,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           head(tr.settingsDangerSection),
           ListTile(
-            leading: const Icon(Icons.delete_forever_outlined, color: NV.danger),
-            title: Text(tr.settingsWipe, style: const TextStyle(color: NV.danger)),
+            leading: Icon(Icons.delete_forever_outlined, color: NV.danger),
+            title: Text(tr.settingsWipe, style: TextStyle(color: NV.danger)),
             onTap: _wipe,
           ),
           if (ver != null)

@@ -19,6 +19,9 @@ Icon: [`design/icon/gen_icon.py`](../design/icon/gen_icon.py) sinh ra `icon.svg`
 | brass | `#C8963A` | logo, con dấu |
 | edge | `#8FA19D` | viền nút ghost (≥3:1) |
 | warn / danger | `#94540A` / `#A8302E` | sắp hết hạn, chưa sync lâu / huỷ, xoá |
+| dOk / dRun | `#8FD3A8` / `#8DBEF0` | trên nền tối: xong (xanh lá) / đang chạy (xanh dương), khác màu hẳn để không cần nhìn icon mới phân biệt |
+
+**Máy bật chế độ tối**: các màn nền sáng đổi sang bảng màu đêm (`NV.night`: paper `#101716`, ink `#E6ECEA`, verdigris `#6FC2B0`…). Màn nền tối (`DarkZone`) giữ nguyên `ground`, nên vẫn nổi lên là "lúc cần chú ý". Mã QR luôn đen trên trắng ở cả hai chế độ để camera dễ đọc.
 
 ## Kết quả đánh giá v1 → v2 (vision và một reviewer độc lập)
 | Vấn đề ở v1 | Sửa trong v2 |
@@ -30,7 +33,7 @@ Icon: [`design/icon/gen_icon.py`](../design/icon/gen_icon.py) sinh ra `icon.svg`
 | Thanh "độ mới" không ai hiểu, chấm xanh giống "online" | Ghi bằng chữ: "Sync với Minh hôm qua", "19 ngày chưa sync" |
 | Không có nút tham gia; ô tạo workspace nhìn như placeholder | Hai nút rõ ràng: "Tạo workspace" và "Quét mã" (một máy quét đọc được cả mã mời lẫn mã sync) |
 | Host không thấy thiết bị lạ | Thêm hàng "Thiết bị lạ, đã từ chối"; thêm nút "Tạo mã mới" |
-| Brass mang quá nhiều nghĩa | Trạng thái "đang chạy" dùng xanh ngọc; brass chỉ cho thương hiệu |
+| Brass mang quá nhiều nghĩa | Trạng thái "đang chạy" dùng màu riêng (nay là xanh dương); brass chỉ cho thương hiệu |
 | Icon button 40px, chữ 12px, viền 1.2:1 | 48px, tối thiểu 13px, viền `#8FA19D` |
 | Thiếu "Quên PIN?" và số lần thử còn lại | Đã thêm |
 

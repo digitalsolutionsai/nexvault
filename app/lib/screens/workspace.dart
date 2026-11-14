@@ -122,8 +122,8 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
               onTap: () => Navigator.pop(ctx, 'move'),
             ),
             ListTile(
-              leading: const Icon(Icons.delete_outline, color: NV.danger),
-              title: Text(tr.workspaceDeleteFolder, style: const TextStyle(color: NV.danger)),
+              leading: Icon(Icons.delete_outline, color: NV.danger),
+              title: Text(tr.workspaceDeleteFolder, style: TextStyle(color: NV.danger)),
               subtitle: Text(tr.workspaceDeleteFolderHint),
               onTap: () => Navigator.pop(ctx, 'delete'),
             ),
@@ -363,7 +363,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                           label: Text(tr.workspaceAll),
                         ),
                         for (final c in crumbs) ...[
-                          const Icon(Icons.chevron_right, size: 18, color: NV.ink2),
+                          Icon(Icons.chevron_right, size: 18, color: NV.ink2),
                           TextButton(onPressed: () => setState(() => folder = c['id']), child: Text(c['name'])),
                         ],
                       ],
@@ -377,7 +377,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                     onLongPress: canWrite ? () => _folderMenu(f) : null,
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(20, 10, 8, 10),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         border: Border(bottom: BorderSide(color: NV.line)),
                       ),
                       child: Row(
@@ -385,8 +385,8 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
                           Container(
                             width: 44,
                             height: 44,
-                            decoration: BoxDecoration(color: const Color(0xFFDCE8E4), borderRadius: BorderRadius.circular(10)),
-                            child: const Icon(Icons.folder_outlined, color: NV.verdigris),
+                            decoration: BoxDecoration(color: NV.tint, borderRadius: BorderRadius.circular(10)),
+                            child: Icon(Icons.folder_outlined, color: NV.verdigris),
                           ),
                           const SizedBox(width: 14),
                           Expanded(
@@ -473,7 +473,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
       onTap: () => _go(SecretScreen(ws: widget.id, id: s['id'], folders: folders)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: NV.line)),
         ),
         child: Row(
@@ -529,7 +529,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
     ),
     child: Text(
       text,
-      style: const TextStyle(fontFamily: NV.sans, fontSize: 14.5, color: NV.ink, height: 1.4),
+      style: TextStyle(fontFamily: NV.sans, fontSize: 14.5, color: NV.ink, height: 1.4),
     ),
   );
 
@@ -568,7 +568,7 @@ class _WorkspaceScreenState extends State<WorkspaceScreen> {
           Expanded(
             child: Text(
               p['needs_keys'] == true ? tr.workspaceProposalAwaitingKeys(text) : text,
-              style: const TextStyle(fontFamily: NV.sans, fontSize: 14.5, color: NV.ink, height: 1.35),
+              style: TextStyle(fontFamily: NV.sans, fontSize: 14.5, color: NV.ink, height: 1.35),
             ),
           ),
           if (p['can_approve'] == true)
@@ -655,14 +655,14 @@ Future<String?> pickFolder(BuildContext context, List<Map<String, dynamic>> fold
             ListTile(
               leading: const Icon(Icons.home_outlined),
               title: Text(tr.workspaceNoFolder),
-              trailing: current == null ? const Icon(Icons.check, color: NV.verdigris) : null,
+              trailing: current == null ? Icon(Icons.check, color: NV.verdigris) : null,
               onTap: () => Navigator.pop(ctx, ''),
             ),
             for (final o in options)
               ListTile(
                 leading: const Icon(Icons.folder_outlined),
                 title: Text(o.$2),
-                trailing: current == o.$1 ? const Icon(Icons.check, color: NV.verdigris) : null,
+                trailing: current == o.$1 ? Icon(Icons.check, color: NV.verdigris) : null,
                 onTap: () => Navigator.pop(ctx, o.$1),
               ),
           ],

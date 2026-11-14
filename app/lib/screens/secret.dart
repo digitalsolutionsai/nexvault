@@ -247,7 +247,7 @@ class _SecretScreenState extends State<SecretScreen> {
               PopupMenuItem(value: 'move', child: Text(tr.secretMoveFolder)),
               PopupMenuItem(
                 value: 'delete',
-                child: Text(tr.secretDelete, style: const TextStyle(color: NV.danger)),
+                child: Text(tr.secretDelete, style: TextStyle(color: NV.danger)),
               ),
             ],
           ),
@@ -281,7 +281,7 @@ class _SecretScreenState extends State<SecretScreen> {
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
               child: Row(
                 children: [
-                  const Icon(Icons.folder_outlined, size: 18, color: NV.ink2),
+                  Icon(Icons.folder_outlined, size: 18, color: NV.ink2),
                   const SizedBox(width: 6),
                   Expanded(child: Text(_folderName()!, style: t.bodySmall)),
                 ],
@@ -290,7 +290,7 @@ class _SecretScreenState extends State<SecretScreen> {
           for (final f in fields)
             Container(
               padding: const EdgeInsets.fromLTRB(20, 8, 6, 8),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 border: Border(top: BorderSide(color: NV.line)),
               ),
               child: Row(
@@ -318,7 +318,7 @@ class _SecretScreenState extends State<SecretScreen> {
           if (s!['file_name'] != null)
             Container(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 border: Border(top: BorderSide(color: NV.line)),
               ),
               child: Column(
@@ -384,7 +384,7 @@ class _SecretScreenState extends State<SecretScreen> {
                   children: [
                     TextSpan(
                       text: '${h['who']} ',
-                      style: const TextStyle(color: NV.ink, fontWeight: FontWeight.w600),
+                      style: TextStyle(color: NV.ink, fontWeight: FontWeight.w600),
                     ),
                     TextSpan(text: '${_action(h['action'])}, ${shortDate(h['ts'])}'),
                   ],
@@ -426,7 +426,7 @@ class _SecretScreenState extends State<SecretScreen> {
         children: [
           Text(
             tr.secretConflictBody,
-            style: const TextStyle(fontFamily: NV.sans, fontSize: 14.5, color: NV.ink, height: 1.4),
+            style: TextStyle(fontFamily: NV.sans, fontSize: 14.5, color: NV.ink, height: 1.4),
           ),
           for (final v in versions)
             Row(
@@ -434,7 +434,7 @@ class _SecretScreenState extends State<SecretScreen> {
                 Expanded(
                   child: Text(
                     '${v['who']}, ${shortDate(v['ts'])}',
-                    style: const TextStyle(fontFamily: NV.sans, fontSize: 14, color: NV.ink2),
+                    style: TextStyle(fontFamily: NV.sans, fontSize: 14, color: NV.ink2),
                   ),
                 ),
                 TextButton(onPressed: () => _peek(v), child: Text(tr.secretView)),
